@@ -73,3 +73,8 @@ items.forEach(e => {
     console.log(e);
     console.log(e.name);
 });
+
+
+$(".info").each(function(i, item){
+    console.log($("strong a", item).text())
+});
