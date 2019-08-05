@@ -13,7 +13,7 @@ function myRetryStrategy(err, response, body, options) {
 
 //#endregion
 
-turlest=encodeURI("http://next1.ir/?s=شادمهر");
+turlest=encodeURI("http://next1.ir/page/1/?s=شادمهر");
 // browser =  puppeteer.launch();
 // page = browser.newPage();
 // setInterval(function(){
