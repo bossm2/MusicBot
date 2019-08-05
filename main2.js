@@ -70,5 +70,6 @@ let filteredEls = $('*').filter(function (i, el) {
 let items = filteredEls.get();
 
 items.forEach(e => {
+    console.log(e);
     console.log(e.name);
 });
