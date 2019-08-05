@@ -61,11 +61,12 @@ background-color: #111111;
 //console.log($('li').eq(2).attr().id);
 
 
-let filteredEls = $('li').filter(function (i, el) {
+let filteredEls = $('*').filter(function (i, el) {
     // this === el
-    return $(this).children().length > 3;
+    console.log($(this).length);
+    return $(this).length = 1;
 });
-
+// console.log(filteredEls.text());
 let items = filteredEls.get();
 
 items.forEach(e => {
