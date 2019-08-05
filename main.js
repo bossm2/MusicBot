@@ -36,6 +36,7 @@ turlest=encodeURI("http://next1.ir/page/1/?s=شادمهر");
 // console.log('newPage')
 
 // //console.log(turlest)
+var hobbies = [];
 setTimeout( function (i) {
     request({
         url: (turlest),
@@ -50,10 +51,14 @@ setTimeout( function (i) {
     }
     else{
             $ = cheerio.load(body)
-			title1 = $('strong','span').children('.span')//.attr('ft-more')
-			//title2 = $(title1).text().trim();
+			// title1 = $('strong','span').children('.span')//.attr('ft-more')
+            //title2 = $(title1).text().trim();
+            $('li').each(function (i, e) {
+                hobbies[i] = $(this).text();
+                console.log(hobbies[i]);
+            });
 			};
-    console.log(title1);
+    // console.log(title1);
     });
 
 });

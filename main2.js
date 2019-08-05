@@ -43,33 +43,33 @@ background-color: #111111;
 //#endregion
 
 
-// $('h2.title').text('Hello there!')
-// $('h2').addClass('welcome')
-// $('.title').text()
-// console.log($.html());
-// console.log($('#aaa').eq(0).text());
-// console.log($('li').children().get(0).tagName);
-// console.log($('li').html().get(0).text());
+$('h2.title').text('Hello there!')
+$('h2').addClass('welcome')
+$('.title').text()
+console.log($.html());
+console.log($('#aaa').eq(0).text());
+console.log($('li').children().get(0).tagName);
+console.log($('li').html().get(0).text());
 
-// var hobbies = [];
-// $('li').each(function (i, e) {
-//     hobbies[i] = $(this).text();
-//     console.log(hobbies[i]);
-// });
-
-
-//console.log($('li').eq(2).attr().id);
+var hobbies = [];
+$('li').each(function (i, e) {
+    hobbies[i] = $(this).text();
+    console.log(hobbies[i]);
+});
 
 
-// let filteredEls = $('*').filter(function (i, el) {
-//     // this === el
-//     console.log($(this).length);
-//     return $(this).length = 1;
-// });
-// // console.log(filteredEls.text());
-// let items = filteredEls.get();
-// console.log(filteredEls.get());
-// items.forEach(e => {
-//     console.log(e);
-//     console.log(e.name);
-// });
+console.log($('li').eq(2).attr().id);
+
+
+let filteredEls = $('*').filter(function (i, el) {
+    // this === el
+    console.log($(this).length);
+    return $(this).length = 1;
+});
+// console.log(filteredEls.text());
+let items = filteredEls.get();
+console.log(filteredEls.get());
+items.forEach(e => {
+    console.log(e);
+    console.log(e.name);
+});
