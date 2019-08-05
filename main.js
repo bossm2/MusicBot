@@ -53,7 +53,7 @@ setTimeout( function (i) {
             $ = cheerio.load(body)
 			// title1 = $('strong','span').children('.span')//.attr('ft-more')
             //title2 = $(title1).text().trim();
-            $('div.title').each(function (i, e) {
+            $('div.post  div.title').each(function (i, e) {
                 hobbies[i] = $(this).children("a").eq(0).attr('href');
                 hobbies[i] = $(this).children("a").eq(0).attr('title');
                 console.log(hobbies[i]);

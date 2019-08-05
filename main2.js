@@ -78,3 +78,9 @@ items.forEach(e => {
 $(".info").each(function(i, item){
     console.log($("strong a", item).text())
 });
+
+
+// search for a and b
+$('div.post,div.title')
+//search for b inner a
+$('div.post  div.title')
