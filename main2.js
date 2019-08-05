@@ -50,8 +50,12 @@ background-color: #111111;
 // console.log($('#aaa').eq(0).text());
 // console.log($('li').children().get(0).tagName);
 // console.log($('li').html().get(0).text());
-var hobbies = [];
-$('li').each(function (i, e) {
-    hobbies[i] = $(this).text();
-    console.log(hobbies[i]);
-});
+
+// var hobbies = [];
+// $('li').each(function (i, e) {
+//     hobbies[i] = $(this).text();
+//     console.log(hobbies[i]);
+// });
+
+
+console.log($('li').eq(2).attr().id);
