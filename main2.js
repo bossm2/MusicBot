@@ -59,3 +59,15 @@ background-color: #111111;
 
 
 //console.log($('li').eq(2).attr().id);
+
+
+let filteredEls = $('li').filter(function (i, el) {
+    // this === el
+    return $(this).children().length > 3;
+});
+
+let items = filteredEls.get();
+
+items.forEach(e => {
+    console.log(e.name);
+});
