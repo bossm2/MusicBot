@@ -58,4 +58,4 @@ background-color: #111111;
 // });
 
 
-console.log($('li').eq(2).attr().id);
+//console.log($('li').eq(2).attr().id);
