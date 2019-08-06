@@ -1,16 +1,6 @@
 //#region variables
-var request = require('requestretry');
-var EventSource = require("eventsource");
 var cheerio = require('cheerio');
-const path = require('path')
-var musics = [];
-const { btoken, stoken, s2token, ttoken, welcometitle, canceltitle, blocktitle, counttitle, waittitle, starttitle, notsupportsmg, gtoken, settingtitle, isreptitle, isbloctitle, helptitle,key } = require("./Constant.js");
-function myRetryStrategy(err, response, body, options) {
-    //console.log(err);
-	return (typeof body == 'undefined' || (err != null));
-}
-//#endregion
-//#region variables
+const path = require('path');
 var EventSource = require("eventsource");
 var request = require('requestretry');
 var express = require('express');
@@ -24,7 +14,12 @@ var mysql = require('mysql');
 var fs = require('fs');
 var https = require('https');
 var wait_bale = [];
-
+var musics = [];
+const { btoken, stoken, s2token, ttoken, welcometitle, canceltitle, blocktitle, counttitle, waittitle, starttitle, notsupportsmg, gtoken, settingtitle, isreptitle, isbloctitle, helptitle,key } = require("./Constant.js");
+function myRetryStrategy(err, response, body, options) {
+    //console.log(err);
+	return (typeof body == 'undefined' || (err != null));
+}
 //#endregion
 //#region Error Handling...
 // process.stdin.resume();
