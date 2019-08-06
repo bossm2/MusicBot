@@ -67,7 +67,7 @@ turlest=encodeURI("http://next1.ir/page/1/?s=شادمهر");
                 musics[link] = new mclass();
                 musics[link].link = link;
                 musics[link].titles = titles;
-                down_link(link)
+                down_link(link);
             });
 			};
     });
