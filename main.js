@@ -7,13 +7,16 @@ function myRetryStrategy(err, response, body, options) {
     //console.log(err);
 	return (typeof body == 'undefined' || (err != null));
 }
+
+var musics = [];
+
 //#endregion
 
 //#region functions
 //down_link
-function down_link(url) {
+function down_link(link) {
     request({
-        url: (url),
+        url: (link),
         method: "GET",
         maxAttempts: 2,
         retryDelay: 100,
@@ -25,18 +28,25 @@ function down_link(url) {
     else{
             $ = cheerio.load(body)
             $('div  #downloads a').each(function (i, e) {
-                hobbies[i] = $(this).text();
-                hobbies[i] = $(this).attr('href');
-                console.log(hobbies[i]);
+                musics[link].quality = $(this).text();
+                musics[link].download = $(this).attr('href');
+                console.log(musics);
             });
 			};
     });
 }
+//class musics var
+class mclass {
+	constructor() {
+		this.titles = '';
+		this.links = '';
+		this.quality = '';
+		this.download = '';
+	}
+}
 //#endregion
 
 turlest=encodeURI("http://next1.ir/page/1/?s=شادمهر");
-
-var hobbies = [];
 
     request({
         url: (turlest),
@@ -51,17 +61,13 @@ var hobbies = [];
     }
     else{
             $ = cheerio.load(body)
-			// title1 = $('strong','span').children('.span')//.attr('ft-more')
-            //title2 = $(title1).text().trim();
             $('div.post  div.title').each(function (i, e) {
-                hobbies[i] = $(this).children("a").eq(0).attr('href');
-                hobbies[i] = $(this).children("a").eq(0).attr('title');
-                console.log(hobbies[i]);
+                var link = $(this).children("a").eq(0).attr('href');
+                var titles = $(this).children("a").eq(0).attr('title');
+                musics[link] = new mclass();
+                musics[link].link = link;
+                musics[link].titles = titles;
+                down_link(link)
             });
 			};
-    // console.log(title1);
     });
-var aaa = [];
-aaa[turlest]='aaaaaa'
-console.log(aaa)
-    turlest="http://next1.ir/%d8%af%d8%a7%d9%86%d9%84%d9%88%d8%af-%d8%a2%d9%87%d9%86%da%af-%d8%ac%d8%af%db%8c%d8%af-%d8%b4%d8%a7%d8%af%d9%85%d9%87%d8%b1-%d8%b9%d9%82%db%8c%d9%84%db%8c-%d8%a8%d8%a7-%d9%86%d8%a7%d9%85-%d8%aa%d8%ac/";
