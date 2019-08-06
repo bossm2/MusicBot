@@ -75,7 +75,8 @@ turlest=encodeURI("http://next1.ir/page/" + ii + "/?s=یگانه");
             });
         }
         else { ii =20 }
+        console.log(musics)
 		};
     });
-    console.log(musics)
+   
 }
