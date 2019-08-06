@@ -22,16 +22,18 @@ function down_link(link) {
         retryDelay: 100,
         retryStrategy: myRetryStrategy},
         function (error, response, body) {
+            
 	if(error) {
     console.log("Error: " + error);
     }
     else{
             $ = cheerio.load(body)
             $('div  #downloads a').each(function (i, e) {
-                musics[link].quality = $(this).text();
+                musics[link].quality = $(this).html();
                 musics[link].download = $(this).attr('href');
-                console.log(musics);
+                musics[link].type = $(this).children('div').text();
             });
+            console.log(musics);
 			};
     });
 }
@@ -40,13 +42,14 @@ class mclass {
 	constructor() {
 		this.titles = '';
 		this.links = '';
-		this.quality = '';
+        this.quality = '';
+        this.type = '';
 		this.download = '';
 	}
 }
 //#endregion
 
-turlest=encodeURI("http://next1.ir/page/1/?s=شادمهر");
+turlest=encodeURI("http://next1.ir/page/1/?s=یگانه");
 
     request({
         url: (turlest),
@@ -55,7 +58,6 @@ turlest=encodeURI("http://next1.ir/page/1/?s=شادمهر");
         retryDelay: 100,
         retryStrategy: myRetryStrategy},
         function (error, response, body) {
-            //console.log(body);
 	if(error) {
     console.log("Error: " + error);
     }
@@ -65,7 +67,7 @@ turlest=encodeURI("http://next1.ir/page/1/?s=شادمهر");
                 var link = $(this).children("a").eq(0).attr('href');
                 var titles = $(this).children("a").eq(0).attr('title');
                 musics[link] = new mclass();
-                musics[link].link = link;
+                musics[link].links = link;
                 musics[link].titles = titles;
                 down_link(link);
             });
