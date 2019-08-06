@@ -33,7 +33,7 @@ function down_link(link) {
                 musics[link].download = $(this).attr('href');
                 musics[link].type = $(this).children('div').text();
             });
-            //console.log(musics);
+            console.log(musics);
 			};
     });
 }
@@ -74,9 +74,7 @@ turlest=encodeURI("http://next1.ir/page/" + ii + "/?s=یگانه");
                 down_link(link);
             });
         }
-        else { ii =20 }
-        console.log(musics)
+        //console.log(musics)
 		};
     });
-   
 }
