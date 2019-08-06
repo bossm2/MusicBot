@@ -2,7 +2,7 @@
 var request = require('requestretry');
 var EventSource = require("eventsource");
 var cheerio = require('cheerio');
-
+const path = require('path')
 function myRetryStrategy(err, response, body, options) {
     //console.log(err);
 	return (typeof body == 'undefined' || (err != null));
@@ -29,9 +29,11 @@ function down_link(link) {
     else{
             $ = cheerio.load(body)
             $('div  #downloads a').each(function (i, e) {
-                musics[link].quality = $(this).contents().eq(1).text();
-                musics[link].download = $(this).attr('href');
-                musics[link].type = $(this).children('div').text();
+                var downlink = new URL(decodeURI($(this).attr('href')));
+                musics[link].quality.push($(this).contents().eq(1).text().replace('دانلود', ''));
+                musics[link].download.push(downlink.href);
+                musics[link].name.push(path.basename(downlink.pathname).replace('Next1.ir', '@bott').replace('www.', ''));
+                musics[link].type.push($(this).children('div').text());
             });
             console.log(musics);
 			};
@@ -41,10 +43,11 @@ function down_link(link) {
 class mclass {
 	constructor() {
 		this.titles = '';
-		this.links = '';
-        this.quality = '';
-        this.type = '';
-		this.download = '';
+		//this.links = '';
+        this.quality = [];
+        this.type = [];
+        this.download = [];
+        this.name = [];
 	}
 }
 //#endregion
@@ -69,8 +72,8 @@ turlest=encodeURI("http://next1.ir/page/" + ii + "/?s=یگانه");
                 var link = $(this).children("a").eq(0).attr('href');
                 var titles = $(this).children("a").eq(0).attr('title');
                 musics[link] = new mclass();
-                musics[link].links = link;
-                musics[link].titles = titles;
+                //musics[link].links = link;
+                musics[link].titles = titles.replace('دانلود', '').replace('جدید', '');
                 down_link(link);
             });
         }
