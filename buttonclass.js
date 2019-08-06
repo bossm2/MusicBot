@@ -4,7 +4,7 @@ function buttunmaker(buttun,plt){
         var returns = [];
     for (var i = 0, len = buttun.length; i < len; i++) {
             var ort = {};
-              ort.action = 0;
+            ort.action = 0;
         if(buttun[i].length == 1){
         ort.text = buttun[i][0];
         ort.value = buttun[i][0];
