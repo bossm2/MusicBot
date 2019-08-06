@@ -84,3 +84,31 @@ $(".info").each(function(i, item){
 $('div.post,div.title')
 //search for b inner a
 $('div.post  div.title')
+
+$('div  #downloads a').each(function (i, e) {
+    hobbies[i] = $(this).text();
+    hobbies[i] = $(this).attr('href');
+    console.log(hobbies[i]);
+});
+// browser =  puppeteer.launch();
+// page = browser.newPage();
+// setInterval(function(){
+
+// (async () => {
+    
+    
+        
+//         await page.goto(turlest, {waitUntil: 'load'});
+
+//         const newPage = await page.evaluate(() => {
+//         return  document.getElementsByClassName('ft-more')[0].outerText
+//         });
+        
+//     console.log(newPage)
+
+// })()
+// },9000)
+
+// console.log('newPage')
+
+// //console.log(turlest)
