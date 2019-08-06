@@ -29,11 +29,11 @@ function down_link(link) {
     else{
             $ = cheerio.load(body)
             $('div  #downloads a').each(function (i, e) {
-                musics[link].quality = $(this).html();
+                musics[link].quality = $(this).contents().eq(1).text();
                 musics[link].download = $(this).attr('href');
                 musics[link].type = $(this).children('div').text();
             });
-            console.log(musics);
+            //console.log(musics);
 			};
     });
 }
@@ -49,8 +49,8 @@ class mclass {
 }
 //#endregion
 
-turlest=encodeURI("http://next1.ir/page/1/?s=یگانه");
-
+for (var ii = 0; ii < 20; ii++) {
+turlest=encodeURI("http://next1.ir/page/" + ii + "/?s=یگانه");
     request({
         url: (turlest),
         method: "GET",
@@ -63,7 +63,9 @@ turlest=encodeURI("http://next1.ir/page/1/?s=یگانه");
     }
     else{
             $ = cheerio.load(body)
-            $('div.post  div.title').each(function (i, e) {
+            var selctor = $('div.post  div.title')
+            if(selctor){
+            selctor.each(function (i, e) {
                 var link = $(this).children("a").eq(0).attr('href');
                 var titles = $(this).children("a").eq(0).attr('title');
                 musics[link] = new mclass();
@@ -71,5 +73,9 @@ turlest=encodeURI("http://next1.ir/page/1/?s=یگانه");
                 musics[link].titles = titles;
                 down_link(link);
             });
-			};
+        }
+        else { ii =20 }
+		};
     });
+    console.log(musics)
+}
