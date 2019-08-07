@@ -200,7 +200,6 @@ function buttunmaker(buttun,plt){
     }
     return {reply_markup:JSON.stringify({keyboard:returns,resize_keyboard: true})};
     }
-    
     }
 
 

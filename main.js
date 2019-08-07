@@ -246,16 +246,16 @@ class baleserverjs {
 }
 function smg(usertocken, textsmg, keyboard) {
 		if (usertocken[0] == 's') {
-			sendMessage(usertocken, textsmg, 'TEXT',keyboard);
+			sendMessage(usertocken, textsmg, 'TEXT',keyboard[usertocken[0]]);
 		}
 		else if (usertocken[0] == 'g') {
-			sendgap(usertocken, textsmg, 'text',keyboard);
+			sendgap(usertocken, textsmg, 'text',keyboard[usertocken[0]]);
 		}
 		else if (usertocken[0] == 't') {
-			bot.sendMessage(usertocken.slice(2), textsmg);
+			bot.sendMessage(usertocken.slice(2), textsmg,keyboard[usertocken[0]]);
 		}
 		else if (usertocken[0] == 'b') {
-			sendbale(textsmg, usertocken,keyboard);
+			sendbale(textsmg, usertocken,keyboard[usertocken[0]]);
 		}
 }
 //massage sender function
@@ -728,100 +728,39 @@ evtSource.onmessage = function (e) {
 	var usertocken = 's' + ',' + jsoncontent.from;
 	com_define(usertocken);
 	if (tmp[usertocken].wait != '') {
-
-		if (jsoncontent.body == "/yes") {
-			acceptdoing(usertocken);
-		}
-		else if (jsoncontent.body == "/no") {
-			tmp[usertocken].wait = '';
-		}
-		// else{
-		//	jsoncontent.body = tmp[usertocken].wait;
-		// }
+		smg(usertocken,waittitle,key.command)
 	}
 	if ((jsoncontent.body) && (jsoncontent.body)[0] == "/") {
-		//run the game
-		if (jsoncontent.body == "/runcommand") {
-			runcommands(usertocken);
-			var allowsend = 0;
-		}
 		//Back command
-		else if (jsoncontent.body == "/backcommand") {
-			com_run(usertocken);
-			zeroobject(usertocken);
-			var allowsend = 0;
-		}
-		//se
-		else if (jsoncontent.body == "/setting") {
-			thesetting(usertocken, settingtitle);
-			var allowsend = 0;
-		}
-		else if (jsoncontent.body == "/report") {
-			theblock(usertocken, isreptitle);
-			tmp[usertocken].wait = '/report';
-			var allowsend = 0;
-		}
-		else if (jsoncontent.body == "/blocking") {
-			theblock(usertocken, isbloctitle);
-			tmp[usertocken].wait = '/blocking'
-			var allowsend = 0;
+		if (jsoncontent.body == "/backcommand") {
+			tmp[usertocken].wait = '';
+			allowsend = 0;
 		}
 		else if (jsoncontent.body == "/help") {
-			thecommand(usertocken, helptitle);
-			var allowsend = 0;
+			
+			allowsend = 0;
 		}
 		else { allowsend = 1; }
 		// else if(jsoncontent.body == "/yes" || jsoncontent.body == "/no"){}
 	}
-	
 	//start bot
 	if (jsoncontent.type == "START") {
 		com_run(usertocken);
 		zeroobject(usertocken);
 		tmp[usertocken].wait = '';
+		allowsend = 0;
 	}
 	//stop bot
 	else if (jsoncontent.type == "STOP") {
-		zeroobject(usertocken);
+		//zeroobject(usertocken);
+		tmp[usertocken].wait = '';
+		allowsend = 0;
 	}
 	//no command
 	else if (allowsend == 1) {
 		// send text to another user
-		if (typeof atmp[usertocken] == 'undefined' || !(atmp[usertocken])) {
-			com_run(usertocken);
-			zeroobject(usertocken);
-		}
-		else if ((atmp[usertocken])[0] == 's' || (atmp[usertocken])[0] == 'q') {
-			jsoncontent.to = atmp[usertocken].slice(2);
-			if (atmp[usertocken][0] == 's') {
-				var token = stoken
-			}
-			else {
-				var token = s2token
-			}
-			request({
-				url: (token + "/sendMessage"),
-				method: "POST",
-				headers: {
-					"Content-Type": "Application/json",
-					"Accept": "Application/json"
-				},
-				json: true,
-				body: jsoncontent,
-				maxAttempts: 1000,
-				retryDelay: 100,
-				retryStrategy: myRetryStrategy
-			}, function (error, response, body) {
-				console.log(body);
-				console.log(response.attempts);
-			});
-			jsoncontent.from = usertocken;
-			jsoncontent.to = atmp[usertocken];
-			smg_log(jsoncontent);
-		}
-		else {
+		tmp[usertocken].wait = 'yes';
 			smg(atmp[usertocken], jsoncontent, 's')
-		}
 	}
 }
 //#endregion
@@ -829,67 +768,33 @@ evtSource.onmessage = function (e) {
 bot.on('message', jsoncontent => {
 	//  console.log(jsoncontent);
 	//definition objects
-	var allowsend = 0;
+	var allowsend = 1;
 	var usertocken = 't' + ',' + jsoncontent.chat.id;
 	com_define(usertocken);
 	if (tmp[usertocken].wait != '') {
-		if (jsoncontent.text == "✅بله") {
-			acceptdoing(usertocken);
-		}
-		else if (jsoncontent.text == "✅خیر") {
-			tmp[usertocken].wait = '';
-		}
-		// else{
-		//	jsoncontent.text = tmp[usertocken].wait;
-		// }
+
 	}
 	if ((jsoncontent.text) && (jsoncontent.text)[0] == "✅") {
-		//run the game
-		if (jsoncontent.text == '✅شروع چت تصادفی' || jsoncontent.text == "✅چت جدید") {
-			runcommands(usertocken);
-		}
-		//Back command
-		else if (jsoncontent.text == "✅بازگشت") {
-			com_run(usertocken);
-			zeroobject(usertocken);
-		}
-		//setting command
-		else if (jsoncontent.text == "✅تنظیمات و راهنما") {
-			thesetting(usertocken, settingtitle);
-		}
-		//blocking command
-		else if (jsoncontent.text == "✅بلاک کردن") {
-			theblock(usertocken, isbloctitle);
-			tmp[usertocken].wait = '/blocking'
-		}
-		else if (jsoncontent.text == "✅بلاک و گزارش تخلف") {
-			theblock(usertocken, isreptitle);
-			tmp[usertocken].wait = '/report'
+		if (jsoncontent.text == "✅بازگشت") {
+			allowsend = 0; 
 		}
 		//help command
 		else if (jsoncontent.text == "✅راهنما") {
 			thecommand(usertocken, helptitle);
+			allowsend = 0; 
 		}
 		else { allowsend = 1; }
-		// else if(jsoncontent.text == "✅بله" || jsoncontent.text == "✅خیر"){}
 	}
-	else { allowsend = 1; }
 	//start bot
 	if (jsoncontent.text == "/START") {
 		com_run(usertocken);
 		zeroobject(usertocken);
 		tmp[usertocken].wait = '';
+		allowsend = 0;
 	}
 	//no command
 	else if (allowsend == 1) {
-		// send text to another user
-		if (typeof atmp[usertocken] == 'undefined' || !(atmp[usertocken])) {
-			com_run(usertocken);
-			zeroobject(usertocken);
-		}
-		else {
-			smg(atmp[usertocken], jsoncontent, 't');
-		}
+		smg(atmp[usertocken], jsoncontent, 't');
 	}
 });
 function callback(err, obj) {
@@ -910,7 +815,7 @@ function sendgap(usertocken, title, type, keyboard) {
 	tobody.type = type;
 	tobody.data = title;
 	if (typeof keyboard === 'undefined') {
-		tobody.inline_keyboard = key.stop.gi;
+		//tobody.inline_keyboard = key.stop.gi;
 	}
 	else {
 		tobody.reply_keyboard = keyboard;
@@ -933,110 +838,40 @@ function sendgap(usertocken, title, type, keyboard) {
 }
 //get post request from gap
 app.post('/', function (req, res) {
-	var allowsend = 0;
+	var allowsend = 1;
 	var jsoncontent = req.body;
-	//  console.log(jsoncontent);
-	// console.log((JSON.parse(jsoncontent.data)).path);
-	//definition objects
 	var usertocken = 'g' + ',' + jsoncontent.chat_id;
 	com_define(usertocken);
 	if (tmp[usertocken].wait != '') {
-		if (jsoncontent.data == "/yes") {
-			acceptdoing(usertocken);
-		}
-		else if (jsoncontent.data == "/no") {
-			tmp[usertocken].wait = '';
-		}
-		// else{allowsend = 0}
-		//	jsoncontent.body = tmp[usertocken].wait;
+
 	}
 	if ((jsoncontent.data) && (jsoncontent.data)[0] == "/") {
-		//run the game
-		if (jsoncontent.data == "/runcommand") {
-			runcommands(usertocken);
-		}
-		//Back command
-		else if (jsoncontent.data == "/backcommand") {
-			com_run(usertocken);
-			zeroobject(usertocken);
-		}
-		//setting command
-		else if (jsoncontent.data == "/setting") {
-			thesetting(usertocken, settingtitle);
-		}
-		//blocking command
-		else if (jsoncontent.data == "/blocking") {
-			theblock(usertocken, isbloctitle);
-			tmp[usertocken].wait = '/blocking'
-		}
-		else if (jsoncontent.data == "/report") {
-			theblock(usertocken, isreptitle);
-			tmp[usertocken].wait = '/report'
-		}
 		//help command
-		else if (jsoncontent.data == "/help") {
+		if (jsoncontent.data == "/help") {
 			thecommand(usertocken, helptitle);
+			allowsend = 0;
 		}
-		// else if(jsoncontent.data == "/yes" || jsoncontent.data == "/no"){}
 		else { allowsend = 1; }
 	}
-	else { allowsend = 1; }
 	//start bot
 	if (jsoncontent.type == "join") {
-		com_run(usertocken);
-		zeroobject(usertocken);
+		allowsend = 0;
 	}
 	//stop bot
 	else if (jsoncontent.type == "leave") {
-		zeroobject(usertocken)
+		allowsend = 0;
 	}
-	//Back command
-	// else if(jsoncontent.data == "backcommand"){
-	// com_run(usertocken);
-	// zeroobject(usertocken)
-	// }
 	else if (jsoncontent.type == "triggerButton") {
-		com_run(usertocken);
-		zeroobject(usertocken)
+		allowsend = 0;
 	}
 	//no command
 	else if (allowsend == 1) {
-		// send text to another user
-		if (typeof atmp[usertocken] == 'undefined' || !(atmp[usertocken])) {
-			com_run(usertocken);
-			zeroobject(usertocken);
-		}
-		else if ((atmp[usertocken])[0] == 'g') {
-			jsoncontent.chat_id = atmp[usertocken].slice(2);
-			//jsoncontent.reply_keyboard = '{"keyboard":[[{"runcommand": "✅چت جدید"},{"backcommand":"✅بازگشت"}]],"once":false}';
-			jsoncontent.inline_keyboard = '[[{"text": "انصراف" , "cb_data": "backcommand"}]]';
-			request({
-				url: "https://api.gap.im/sendMessage",
-				method: "POST",
-				headers: {
-					"token": gtoken
-				},
-				json: true,
-				form: jsoncontent,
-				maxAttempts: 1000,
-				retryDelay: 100,
-				retryStrategy: myRetryStrategy
-			}, function (error, response, body) {
-				console.log(body);
-				console.log(response.attempts);
-			});
-			jsoncontent.from = usertocken;
-			jsoncontent.to = atmp[usertocken];
-			smg_log(jsoncontent);
-		}
-		else {
 			smg(atmp[usertocken], jsoncontent, 'g');
-		}
 	}
 });
 //start listener
 //test change
-var server = app.listen(801, function () {
+var server = app.listen(930, function () {
 	var host = server.address().address;
 	var port = server.address().port;
 });
