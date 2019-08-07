@@ -706,12 +706,16 @@ function down_link(link,usertocken) {
 //#endregion
 //#region get object from mysql
 //test change
-con.query(("SELECT UserID,State,Block FROM chat3.UserProp;"), function (err, result, fields) {
+con.query(("SELECT link,titles,quality,type,download,name,json FROM ritmic.musics;"), function (err, result, fields) {
 	if (result != "" && (typeof result !== 'undefined')) {
 		result.forEach(function (element) {
-			tmp[element.UserID] = new tmpclass();
-			//tmp[element.UserID].state = element.State;
-			//tmp[element.UserID].bloc = element.Block || '';
+			musics[element.link] = new mclass();
+			musics[element.link].titles = element.titles;
+			musics[element.link].quality = element.quality;
+			musics[element.link].type = element.type;
+			musics[element.link].download = element.download;
+			musics[element.link].name = element.name;
+			musics[element.link].json = element.json;
 		});
 	}
 });
