@@ -719,23 +719,8 @@ con.query(("SELECT link,titles,quality,type,download,name,json FROM ritmic.music
 		});
 	}
 });
-function qblock(usertocken) {
-	con.query(("UPDATE chat3.UserProp SET Block = '" + tmp[usertocken].bloc + "' where UserID =  '" + usertocken + "';"), function (err, result, fields) {
-		if (err) { console.log(err); }
-	});
-}
-function qhistory(usertocken1, usertocken2) {
-	con.query(("UPDATE chat3.UserProp SET History = CONCAT(History,'" + '||' + usertocken2 + "') where UserID = '" + usertocken1 + "';UPDATE chat3.UserProp SET History = CONCAT(History,'" + '||' + usertocken1 + "') where UserID = '" + usertocken2 + "';"), function (err, result, fields) {
-		if (err) { console.log(err); }
-	});
-}
-function qstate(usertocken, state) {
-	con.query(("UPDATE chat3.UserProp SET State = '" + state + "' where UserID = '" + usertocken + "';"), function (err, result, fields) {
-		if (err) { console.log(err); }
-	});
-}
-function qinsert(usertocken) {
-	con.query(("INSERT INTO chat3.UserProp (UserID) VALUES( '" + usertocken + "');"), function (err, result, fields) {
+function qinsert(link) {
+	con.query(("INSERT INTO ritmic.musics (link,titles,quality,type,download,name,json) VALUES( '" + link + ',' + musics[link].titles + ',' + ',' + musics[link].quality + ',' + ',' + musics[link].type + ',' + ',' + musics[link].download + ',' + ',' + musics[link].name + ',' + ',' + musics[link].json + ',' + "');"), function (err, result, fields) {
 		if (err) { console.log(err); }
 	});
 }
