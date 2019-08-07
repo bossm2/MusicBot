@@ -81,15 +81,10 @@ con.on('error', function (err) {
 	if (err) console.log(err);
 });
 //#endregion
-//region 
 //#region send file
 class tmpclass {
 	constructor() {
-		this.count = 0;
 		this.wait = '';
-		this.bloc = '';
-		this.state = 1;
-		this.lastchat = '';
 	}
 }
 //class musics var
@@ -248,6 +243,20 @@ class baleserverjs {
 		this.service = 'files';
 		this.id = id;
 	}
+}
+function smg(usertocken, textsmg, keyboard) {
+		if (usertocken[0] == 's') {
+			sendMessage(usertocken, textsmg, 'TEXT',keyboard);
+		}
+		else if (usertocken[0] == 'g') {
+			sendgap(usertocken, textsmg, 'text',keyboard);
+		}
+		else if (usertocken[0] == 't') {
+			bot.sendMessage(usertocken.slice(2), textsmg);
+		}
+		else if (usertocken[0] == 'b') {
+			sendbale(textsmg, usertocken,keyboard);
+		}
 }
 //massage sender function
 function sendMessage(usertocken, title, type, keyboard) {
@@ -610,6 +619,12 @@ function getbalef(fileType, fileId, userId) {
 }
 //#endregion
 //#region functions
+//com_define : check if a usertocken id duplicated or not , if not added to tmp and db for future use.
+function com_define(usertocken) {
+	if (typeof tmp[usertocken] === 'undefined') {
+		tmp[usertocken] = new tmpclass();
+	}
+}
 function searching(string,usertocken){
     for (var ii = 0; ii < 20; ii++) {
     turlest=encodeURI("http://next1.ir/page/" + ii + "/?s=" + string);
@@ -709,7 +724,7 @@ evtSource.onmessage = function (e) {
 	var jsoncontent = JSON.parse(e.data);
 	// console.log(jsoncontent);
 	//definition objects
-	var allowsend = 0;
+	var allowsend = 1;
 	var usertocken = 's' + ',' + jsoncontent.from;
 	com_define(usertocken);
 	if (tmp[usertocken].wait != '') {
@@ -728,31 +743,37 @@ evtSource.onmessage = function (e) {
 		//run the game
 		if (jsoncontent.body == "/runcommand") {
 			runcommands(usertocken);
+			var allowsend = 0;
 		}
 		//Back command
 		else if (jsoncontent.body == "/backcommand") {
 			com_run(usertocken);
 			zeroobject(usertocken);
+			var allowsend = 0;
 		}
 		//se
 		else if (jsoncontent.body == "/setting") {
 			thesetting(usertocken, settingtitle);
+			var allowsend = 0;
 		}
 		else if (jsoncontent.body == "/report") {
 			theblock(usertocken, isreptitle);
-			tmp[usertocken].wait = '/report'
+			tmp[usertocken].wait = '/report';
+			var allowsend = 0;
 		}
 		else if (jsoncontent.body == "/blocking") {
 			theblock(usertocken, isbloctitle);
 			tmp[usertocken].wait = '/blocking'
+			var allowsend = 0;
 		}
 		else if (jsoncontent.body == "/help") {
 			thecommand(usertocken, helptitle);
+			var allowsend = 0;
 		}
 		else { allowsend = 1; }
 		// else if(jsoncontent.body == "/yes" || jsoncontent.body == "/no"){}
 	}
-	else { allowsend = 1; }
+	
 	//start bot
 	if (jsoncontent.type == "START") {
 		com_run(usertocken);
