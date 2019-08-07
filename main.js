@@ -457,7 +457,7 @@ function uploading(usertocken, link, prop,fileType) {
 			sendreq.get(link, function (res) {
 				console.log(res.headers);
 				prop.s = res.headers['content-length'];
-				var fileType = (res.headers['content-type'].includes("image")) ? 'p' : 'f';
+				fileType = (res.headers['content-type'].includes("image")) ? 'p' : 'f';
 			if (usertocken[0] == 's') {
 				if (fileType == 'p') { fileType = 'IMAGE' } else { fileType = 'ATTACHMENT' }
 				file_s(fileType, usertocken, res, stoken, prop);
@@ -610,7 +610,7 @@ function getbalef(fileType, fileId, userId) {
 }
 //#endregion
 //#region functions
-function searching(string){
+function searching(string,usertocken){
     for (var ii = 0; ii < 20; ii++) {
     turlest=encodeURI("http://next1.ir/page/" + ii + "/?s=" + string);
         request({
@@ -642,7 +642,7 @@ function searching(string){
     }
     }
 //down_link
-function down_link(link) {
+function down_link(link,usertocken) {
     request({
         url: (link),
         method: "GET",
