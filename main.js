@@ -1,4 +1,5 @@
 //#region variables
+const { btoken, stoken, s2token, ttoken, welcometitle, canceltitle, blocktitle, counttitle, waittitle, starttitle, notsupportsmg, gtoken, settingtitle, isreptitle, isbloctitle, helptitle,key } = require("./Constant.js");
 var cheerio = require('cheerio');
 const path = require('path');
 var EventSource = require("eventsource");
@@ -7,29 +8,23 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var NodeWebSocket = require("ws");
 const ReconnectingWebsocket = require('reconnecting-websocket');
-var app = express();
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 var mysql = require('mysql');
 var fs = require('fs');
 var https = require('https');
+var app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 var wait_bale = [];
 var musics = [];
-const { btoken, stoken, s2token, ttoken, welcometitle, canceltitle, blocktitle, counttitle, waittitle, starttitle, notsupportsmg, gtoken, settingtitle, isreptitle, isbloctitle, helptitle,key } = require("./Constant.js");
+var tmp = {};
+var atmp = {};
+var queue = new Set();
 function myRetryStrategy(err, response, body, options) {
     //console.log(err);
 	return (typeof body == 'undefined' || (err != null));
 }
 //#endregion
 //#region Error Handling...
-// process.stdin.resume();
-// function exitHandler(e){
-// 	console.log(e);
-//  }
-
-// process.on('exit', function(e) {
-// exitHandler(e)
-//   });
 process.on('uncaughtException', function (e) {
 	console.log(e);
 	fs.appendFile('/root/node/Error.txt', (JSON.stringify(e) + "\r\n"), function (err) {
@@ -39,8 +34,7 @@ process.on('uncaughtException', function (e) {
 });
 
 //#endregion
-//#region send file
-
+//#region pre configiuration
 const RECONNECTING_OPTIONS = {
 	connectionTimeout: 5000,
 	constructor: typeof window !== 'undefined' ? WebSocket : NodeWebSocket,
@@ -66,18 +60,9 @@ socket.addEventListener('error', (e) => {
 	console.log(e);
 });
 var evtSource = new EventSource((stoken + "/getMessage"), { Header: { "Content-Type": "application/stream+json", "Accept": "application/stream+json", 'Connection': 'keep-alive' } });
-var evtSource2 = new EventSource((s2token + "/getMessage"), { Header: { "Content-Type": "application/stream+json", "Accept": "application/stream+json", 'Connection': 'keep-alive' } });
-var tmp = {};
-var atmp = {};
-var queue = new Set();
-
 const Slimbot = require('slimbot');
 const bot = new Slimbot(ttoken);
-
 evtSource.onerror = function (err) {
-	if (err) console.log(err);
-}
-evtSource2.onerror = function (err) {
 	if (err) console.log(err);
 }
 //conection string mysql
@@ -95,6 +80,9 @@ con.connect(function (err) {
 con.on('error', function (err) {
 	if (err) console.log(err);
 });
+//#endregion
+//region 
+//#region send file
 class tmpclass {
 	constructor() {
 		this.count = 0;
@@ -102,6 +90,17 @@ class tmpclass {
 		this.bloc = '';
 		this.state = 1;
 		this.lastchat = '';
+	}
+}
+//class musics var
+class mclass {
+	constructor() {
+		this.titles = '';
+		//this.links = '';
+        this.quality = [];
+        this.type = [];
+        this.download = [];
+        this.name = [];
 	}
 }
 //sample JSON 
@@ -451,20 +450,16 @@ function file_t(fileType, usertocken, res, prop) {
 	// 	console.log(message.result.photo);
 	// });
 }
-function simage(fileType, usertocken, address, prop) {
-	// console.log(address)
-	// console.log(prop)
-	// console.log(fileType)
-	if (prop.s < 20000000) {
-		https.get(address, function (res) {
-
+function uploading(fileType, usertocken, link, prop) {
+		var link = new URL(link);
+		console.log(link)
+		var sendreq = (link.protocol == "http:") ? http : https;
+			sendreq.get(link, function (res) {
+				console.log(res.headers);
+				prop.s = res.headers['content-length']
 			if (usertocken[0] == 's') {
 				if (fileType == 'p') { fileType = 'IMAGE' } else { fileType = 'ATTACHMENT' }
 				file_s(fileType, usertocken, res, stoken, prop);
-			}
-			else if (usertocken[0] == 'q') {
-				if (fileType == 'p') { fileType = 'IMAGE' } else { fileType = 'ATTACHMENT' }
-				file_s(fileType, usertocken, res, s2token, prop);
 			}
 			else if (usertocken[0] == 't') {
 				file_t(fileType, usertocken, res, prop)
@@ -486,10 +481,12 @@ function simage(fileType, usertocken, address, prop) {
 					var buffer = Buffer.concat(data);
 					wait_bale = [getbales(fileType, buffer.byteLength), 'getserver', usertocken, prop, buffer, fileType];
 				});
-
+			}
+			else if (usertocken[0] == 'q') {
+				if (fileType == 'p') { fileType = 'IMAGE' } else { fileType = 'ATTACHMENT' }
+				file_s(fileType, usertocken, res, s2token, prop);
 			}
 		});
-	}
 }
 function doc_prop(fileType, plt, jsoncontent) {
 	var prop = [];
@@ -612,7 +609,7 @@ function getbalef(fileType, fileId, userId) {
 }
 //#endregion
 //#region functions
-function down_link(string){
+function searching(string){
     for (var ii = 0; ii < 20; ii++) {
     turlest=encodeURI("http://next1.ir/page/" + ii + "/?s=" + string);
         request({
@@ -668,17 +665,6 @@ function down_link(link) {
             console.log(musics);
 			};
     });
-}
-//class musics var
-class mclass {
-	constructor() {
-		this.titles = '';
-		//this.links = '';
-        this.quality = [];
-        this.type = [];
-        this.download = [];
-        this.name = [];
-	}
 }
 //#endregion
 //#region get object from mysql
@@ -809,110 +795,6 @@ evtSource.onmessage = function (e) {
 		}
 		else {
 			smg(atmp[usertocken], jsoncontent, 's')
-		}
-	}
-}
-//#endregion
-//#region on soroush2 -------------------------------------------------------------------------------------soroush2-----------------------------------------------------------
-evtSource2.onmessage = function (e) {
-	var jsoncontent = JSON.parse(e.data);
-	// console.log(jsoncontent.fileUrl);
-	//  console.log(jsoncontent);
-	//definition objects
-	var allowsend = 0;
-	var usertocken = 'q' + ',' + jsoncontent.from;
-	com_define(usertocken);
-	if (tmp[usertocken].wait != '') {
-		if (jsoncontent.body == "/yes") {
-			acceptdoing(usertocken);
-		}
-		else if (jsoncontent.body == "/no") {
-			tmp[usertocken].wait = '';
-		}
-		// else{
-		//	jsoncontent.body = tmp[usertocken].wait;
-		// }
-	}
-
-	if ((jsoncontent.body) && (jsoncontent.body)[0] == "/") {
-		//run the game
-		if (jsoncontent.body == "/runcommand") {
-			runcommands(usertocken);
-		}
-		//Back command
-		else if (jsoncontent.body == "/backcommand") {
-			com_run(usertocken);
-			zeroobject(usertocken);
-		}
-		//setting command
-		else if (jsoncontent.body == "/setting") {
-			thesetting(usertocken, settingtitle);
-		}
-		//blocking command
-		else if (jsoncontent.body == "/blocking") {
-			theblock(usertocken, isbloctitle);
-			tmp[usertocken].wait = '/blocking'
-		}
-		else if (jsoncontent.body == "/report") {
-			theblock(usertocken, isreptitle);
-			tmp[usertocken].wait = '/report'
-		}
-		//help command
-		else if (jsoncontent.body == "/help") {
-			thecommand(usertocken, helptitle);
-		}
-		// else if(jsoncontent.body == "/yes" || jsoncontent.body == "/no"){}
-		else { allowsend = 1; }
-	}
-	else { allowsend = 1; }
-
-	//start bot
-	if (jsoncontent.type == "START") {
-		com_run(usertocken);
-		zeroobject(usertocken);
-		tmp[usertocken].wait = '';
-	}
-	//stop bot
-	else if (jsoncontent.type == "STOP") {
-		zeroobject(usertocken);
-	}
-	//no command
-	else if (allowsend == 1) {
-		// send text to another user
-		if (typeof atmp[usertocken] == 'undefined' || !(atmp[usertocken])) {
-			com_run(usertocken);
-			zeroobject(usertocken);
-		}
-		else if ((atmp[usertocken])[0] == 's' || (atmp[usertocken])[0] == 'q') {
-			jsoncontent.to = atmp[usertocken].slice(2);
-			if (atmp[usertocken][0] == 's') {
-				var token = stoken
-			}
-			else {
-				var token = s2token
-			}
-			request({
-				url: (token + "/sendMessage"),
-				method: "POST",
-				headers: {
-					"Content-Type": "Application/json",
-					"Accept": "Application/json"
-				},
-				json: true,
-				body: jsoncontent,
-				maxAttempts: 1000,
-				retryDelay: 100,
-				retryStrategy: myRetryStrategy
-			}, function (error, response, body) {
-				console.log(body);
-				console.log(response.attempts);
-			});
-			jsoncontent.from = usertocken;
-			jsoncontent.to = atmp[usertocken];
-			smg_log(jsoncontent);
-		}
-		else {
-			smg(atmp[usertocken], jsoncontent, 'q')
 		}
 	}
 }
@@ -1243,7 +1125,7 @@ socket.addEventListener('message', (e) => {
 		if (wait_bale[0] == jsoncontent.id) {
 			if (wait_bale[1] == 'geturl') {
 
-				simage(wait_bale[4], wait_bale[2], jsoncontent.body.url, wait_bale[3]);
+				uploading(wait_bale[4], wait_bale[2], jsoncontent.body.url, wait_bale[3]);
 			}
 			else if (wait_bale[1] == 'getserver') {
 				file_b(jsoncontent.body.url, wait_bale[2], jsoncontent.body.fileId, jsoncontent.body.userId, wait_bale[3], wait_bale[4], wait_bale[5]);
