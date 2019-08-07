@@ -11,6 +11,7 @@ const ReconnectingWebsocket = require('reconnecting-websocket');
 var mysql = require('mysql');
 var fs = require('fs');
 var https = require('https');
+var http = require('http');
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -96,7 +97,7 @@ class mclass {
         this.type = [];
         this.download = [];
 		this.name = [];
-		this.json = '';
+		this.json = [];
 	}
 }
 //sample JSON 
@@ -306,7 +307,7 @@ function getbales(fileType, size) {
 function file_s(fileType, usertocken, res, url, prop,link) {
 	// console.log(fileType);
 	// console.log(usertocken);
-	// console.log(url);
+	console.log(prop.n);
 	request.post({
 		url: url + '/uploadFile',
 		formData: {
@@ -316,6 +317,8 @@ function file_s(fileType, usertocken, res, url, prop,link) {
 		console.log(error);
 		console.log(body);
 		//console.log(response);
+		if(body){ 
+		JSON.parse(body)
 		body3 = {
 			"to": usertocken.slice(2),
 			"type": "FILE",
@@ -331,7 +334,8 @@ function file_s(fileType, usertocken, res, url, prop,link) {
 		}
 		// console.log(body3);
 		//console.log(url);
-		musics[link].json = body3;
+		(musics[link].json).push(body3);
+		qinsert(link);
 		request({
 			url: (url + "/sendMessage"),
 			method: "POST",
@@ -345,9 +349,10 @@ function file_s(fileType, usertocken, res, url, prop,link) {
 			retryDelay: 5000,
 			retryStrategy: myRetryStrategy
 		}, function (error, response, body2) {
-			console.log(body2);
+			//console.log(body2);
 		});
-	});
+	}
+});
 }
 function file_g(fileType, usertocken, res, prop,link) {
 
@@ -379,7 +384,7 @@ function file_g(fileType, usertocken, res, prop,link) {
 			data: JSON.stringify(body)
 		}
 		//send
-		musics[link].json = picbody;
+		(musics[link].json).push(picbody);
 		qinsert(link);
 		request({
 			url: "https://api.gap.im/sendMessage",
@@ -410,12 +415,12 @@ function file_b(server, usertocken, fileId, accessHash, prop, buffer, fileType,l
 		if (err) { console.log(err) } else { console.log(response.statusCode) };
 		if (fileType == 'photo') {
 			socket.send(JSON.stringify(new balesenphoto(fileId, accessHash, buffer.byteLength, usertocken, prop)));
-			musics[link].json = new balesenphoto(fileId, accessHash, buffer.byteLength, usertocken, prop);
+			(musics[link].json).push(new balesenphoto(fileId, accessHash, buffer.byteLength, usertocken, prop));
 			qinsert(link);
 		}
 		else {
 			socket.send(JSON.stringify(new balesend_doc(fileId, accessHash, buffer.byteLength, usertocken, prop)));
-			musics[link].json = new balesend_doc(fileId, accessHash, buffer.byteLength, usertocken, prop);
+			(musics[link].json).push(new balesend_doc(fileId, accessHash, buffer.byteLength, usertocken, prop));
 			qinsert(link);
 		}
 
@@ -452,7 +457,7 @@ function file_t(fileType, usertocken, res, prop,link) {
 		retryStrategy: myRetryStrategy
 	}, function (error, response, body) {
 		console.log(body);
-		musics[link].json = body;
+		(musics[link].json).push(body);
 		qinsert(link);
 		bot.sendDocument
 		console.log(error);
@@ -463,10 +468,10 @@ function file_t(fileType, usertocken, res, prop,link) {
 	// });
 }
 function uploading(usertocken, link, prop) {
-		var link = new URL(link);
-		console.log(link)
-		var sendreq = (link.protocol == "http:") ? http : https;
-			sendreq.get(link, function (res) {
+		var address = new URL(musics[link].download[0]);
+		console.log(address)
+		var sendreq = (address.protocol == "http:") ? http : https;
+			sendreq.get(address, function (res) {
 				console.log(res.headers);
 				prop.s = res.headers['content-length'];
 				fileType = (res.headers['content-type'].includes("image")) ? 'p' : 'f';
@@ -629,7 +634,7 @@ function com_define(usertocken) {
 	}
 }
 function searching(string,usertocken){
-    for (var ii = 0; ii < 20; ii++) {
+    for (var ii = 0; ii < 1; ii++) {
     turlest=encodeURI("http://next1.ir/page/" + ii + "/?s=" + string);
         request({
             url: (turlest),
@@ -678,34 +683,34 @@ function down_link(link,usertocken) {
                 var downlink = new URL(decodeURI($(this).attr('href')));
                 musics[link].quality.push($(this).contents().eq(1).text().replace('دانلود', ''));
                 musics[link].download.push(downlink.href);
-                musics[link].name.push(path.basename(downlink.pathname).replace('Next1.ir', '@bott').replace('www.', ''));
+                musics[link].name.push(path.basename(downlink.pathname).replace('Next1.ir', '@RitmicBot').replace('www.', ''));
 				musics[link].type.push($(this).children('div').text());
 				var prop = [];
 				prop.h='480';
 				prop.w='480';
-				prop.n=musics[link].name;
-				uploading(usertocken, link, prop);
+				prop.n=(musics[link].name)[0];
+				uploading(usertocken,link, prop);
             });
-            console.log(musics);
+            //console.log(musics);
 			};
     });
 }
 //#endregion
 //#region get object from mysql
 //test change
-con.query(("SELECT link,titles,quality,type,download,name,json FROM ritmic.musics;"), function (err, result, fields) {
-	if (result != "" && (typeof result !== 'undefined')) {
-		result.forEach(function (element) {
-			musics[element.link] = new mclass();
-			musics[element.link].titles = element.titles;
-			musics[element.link].quality = element.quality;
-			musics[element.link].type = element.type;
-			musics[element.link].download = element.download;
-			musics[element.link].name = element.name;
-			musics[element.link].json = element.json;
-		});
-	}
-});
+// con.query(("SELECT link,titles,quality,type,download,name,json FROM ritmic.musics;"), function (err, result, fields) {
+// 	if (result != "" && (typeof result !== 'undefined')) {
+// 		result.forEach(function (element) {
+// 			musics[element.link] = new mclass();
+// 			musics[element.link].titles = element.titles;
+// 			musics[element.link].quality = element.quality;
+// 			musics[element.link].type = element.type;
+// 			musics[element.link].download = element.download;
+// 			musics[element.link].name = element.name;
+// 			musics[element.link].json = element.json;
+// 		});
+// 	}
+// });
 function qinsert(link) {
 	con.query(("INSERT INTO ritmic.musics (link,titles,quality,type,download,name,json) VALUES( '" + link + ',' + musics[link].titles + ',' + ',' + musics[link].quality + ',' + ',' + musics[link].type + ',' + ',' + musics[link].download + ',' + ',' + musics[link].name + ',' + ',' + musics[link].json + ',' + "');"), function (err, result, fields) {
 		if (err) { console.log(err); }
@@ -722,6 +727,7 @@ evtSource.onmessage = function(e) {
 	com_define(usertocken);
 	if (tmp[usertocken].wait != ''){
 		smg(usertocken,waittitle,key.stop);
+		allowsend = 0;
 	}
 	if ((jsoncontent.body) && (jsoncontent.body)[0] == "/") {
 		//Back command
@@ -750,7 +756,7 @@ evtSource.onmessage = function(e) {
 	//no command
 	else if (allowsend == 1) {
 		// send text to another user
-		smg(usertocken,helptitle,key.stop);
+		smg(usertocken,waittitle,key.stop);
 		tmp[usertocken].wait = 'yes';
 		searching(jsoncontent.body,usertocken)
 	}
