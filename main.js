@@ -757,7 +757,6 @@ evtSource.onmessage = function (e) {
 			allowsend = 0;
 		}
 		else { allowsend = 1; }
-		// else if(jsoncontent.body == "/yes" || jsoncontent.body == "/no"){}
 	}
 	//start bot
 	if (jsoncontent.type == "START") {
