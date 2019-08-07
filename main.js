@@ -298,35 +298,12 @@ function sendMessage(usertocken, title, type, keyboard) {
 		console.log(body);
 	});
 }
-//massage sender function
-function sendMessage2(usertocken, title, type, keyboard) {
-	request({
-		url: (s2token + "/sendMessage"),
-		method: "POST",
-		headers: {
-			"Content-Type": "Application/json",
-			"Accept": "Application/json"
-		},
-		json: true,
-		body: {
-			"to": usertocken.slice(2),
-			"type": type,
-			"body": title,
-			"keyboard": keyboard
-		},
-		maxAttempts: 50,
-		retryDelay: 5000,
-		retryStrategy: myRetryStrategy
-	}, function (error, response, body) {
-		console.log(body);
-	});
-}
 function getbales(fileType, size) {
 	var id = (Math.floor(Math.random() * 55000)).toString()
 	socket.send(JSON.stringify(new baleserverjs(fileType, size, id)))
 	return id;
 }
-function file_s(fileType, usertocken, res, url, prop) {
+function file_s(fileType, usertocken, res, url, prop,link) {
 	// console.log(fileType);
 	// console.log(usertocken);
 	// console.log(url);
@@ -354,6 +331,7 @@ function file_s(fileType, usertocken, res, url, prop) {
 		}
 		// console.log(body3);
 		//console.log(url);
+		musics[link].json = body3;
 		request({
 			url: (url + "/sendMessage"),
 			method: "POST",
@@ -371,7 +349,7 @@ function file_s(fileType, usertocken, res, url, prop) {
 		});
 	});
 }
-function file_g(fileType, usertocken, res, prop) {
+function file_g(fileType, usertocken, res, prop,link) {
 
 	// var tobody = {};
 	// tobody.chat_id = usertocken.slice(2);
@@ -401,6 +379,8 @@ function file_g(fileType, usertocken, res, prop) {
 			data: JSON.stringify(body)
 		}
 		//send
+		musics[link].json = picbody;
+		qinsert(link);
 		request({
 			url: "https://api.gap.im/sendMessage",
 			method: "POST",
@@ -418,7 +398,7 @@ function file_g(fileType, usertocken, res, prop) {
 		});
 	});
 }
-function file_b(server, usertocken, fileId, accessHash, prop, buffer, fileType) {
+function file_b(server, usertocken, fileId, accessHash, prop, buffer, fileType,link) {
 	var options = {
 		url: server,
 		headers: {
@@ -430,14 +410,18 @@ function file_b(server, usertocken, fileId, accessHash, prop, buffer, fileType) 
 		if (err) { console.log(err) } else { console.log(response.statusCode) };
 		if (fileType == 'photo') {
 			socket.send(JSON.stringify(new balesenphoto(fileId, accessHash, buffer.byteLength, usertocken, prop)));
+			musics[link].json = new balesenphoto(fileId, accessHash, buffer.byteLength, usertocken, prop);
+			qinsert(link);
 		}
 		else {
 			socket.send(JSON.stringify(new balesend_doc(fileId, accessHash, buffer.byteLength, usertocken, prop)));
+			musics[link].json = new balesend_doc(fileId, accessHash, buffer.byteLength, usertocken, prop);
+			qinsert(link);
 		}
 
 	});
 }
-function file_t(fileType, usertocken, res, prop) {
+function file_t(fileType, usertocken, res, prop,link) {
 	// var tobody = {};
 	// tobody.chat_id = usertocken.slice(2);
 	// tobody.type = type;
@@ -468,6 +452,8 @@ function file_t(fileType, usertocken, res, prop) {
 		retryStrategy: myRetryStrategy
 	}, function (error, response, body) {
 		console.log(body);
+		musics[link].json = body;
+		qinsert(link);
 		bot.sendDocument
 		console.log(error);
 	});
@@ -476,7 +462,7 @@ function file_t(fileType, usertocken, res, prop) {
 	// 	console.log(message.result.photo);
 	// });
 }
-function uploading(usertocken, link, prop,fileType) {
+function uploading(usertocken, link, prop) {
 		var link = new URL(link);
 		console.log(link)
 		var sendreq = (link.protocol == "http:") ? http : https;
@@ -486,14 +472,14 @@ function uploading(usertocken, link, prop,fileType) {
 				fileType = (res.headers['content-type'].includes("image")) ? 'p' : 'f';
 			if (usertocken[0] == 's') {
 				if (fileType == 'p') { fileType = 'IMAGE' } else { fileType = 'ATTACHMENT' }
-				file_s(fileType, usertocken, res, stoken, prop);
+				file_s(fileType, usertocken, res, stoken, prop,link);
 			}
 			else if (usertocken[0] == 't') {
-				file_t(fileType, usertocken, res, prop)
+				file_t(fileType, usertocken, res, prop,link)
 			}
 			else if (usertocken[0] == 'g') {
 				if (fileType == 'p') { fileType = 'image' } else { fileType = 'file' }
-				file_g(fileType, usertocken, res, prop);
+				file_g(fileType, usertocken, res, prop,link);
 			}
 			else if (usertocken[0] == 'b') {
 				if (fileType == 'p') { fileType = 'photo' } else { fileType = 'file' }
@@ -506,7 +492,7 @@ function uploading(usertocken, link, prop,fileType) {
 					//so Buffer.concat() can make us a new Buffer
 					//of all of them together
 					var buffer = Buffer.concat(data);
-					wait_bale = [getbales(fileType, buffer.byteLength), 'getserver', usertocken, prop, buffer, fileType];
+					wait_bale = [getbales(fileType, buffer.byteLength), 'getserver', usertocken, prop, buffer, fileType,link];
 				});
 			}
 			else if (usertocken[0] == 'q') {
@@ -665,7 +651,7 @@ function searching(string,usertocken){
                     musics[link] = new mclass();
                     //musics[link].links = link;
                     musics[link].titles = titles.replace('دانلود', '').replace('جدید', '');
-                    down_link(link);
+                    down_link(link,usertocken);
                 });
             }
             //console.log(musics)
@@ -698,6 +684,7 @@ function down_link(link,usertocken) {
 				prop.h='480';
 				prop.w='480';
 				prop.n=musics[link].name;
+				uploading(usertocken, link, prop);
             });
             console.log(musics);
 			};
@@ -739,7 +726,7 @@ evtSource.onmessage = function(e) {
 	if ((jsoncontent.body) && (jsoncontent.body)[0] == "/") {
 		//Back command
 		if (jsoncontent.body == "/backcommand") {
-			smg(usertocken,welcometitle,key.start);
+			smg(usertocken,welcometitle,key.help);
 			tmp[usertocken].wait = '';
 			allowsend = 0;
 		}
@@ -751,7 +738,7 @@ evtSource.onmessage = function(e) {
 	}
 	//start bot
 	if (jsoncontent.type == "START") {
-		smg(usertocken,welcometitle,key.start);
+		smg(usertocken,welcometitle,key.help);
 		tmp[usertocken].wait = '';
 		allowsend = 0;
 	}
@@ -763,6 +750,7 @@ evtSource.onmessage = function(e) {
 	//no command
 	else if (allowsend == 1) {
 		// send text to another user
+		smg(usertocken,helptitle,key.stop);
 		tmp[usertocken].wait = 'yes';
 		searching(jsoncontent.body,usertocken)
 	}
@@ -932,7 +920,7 @@ socket.addEventListener('message', (e) => {
 				uploading( wait_bale[2], jsoncontent.body.url, wait_bale[3],wait_bale[4]);
 			}
 			else if (wait_bale[1] == 'getserver') {
-				file_b(jsoncontent.body.url, wait_bale[2], jsoncontent.body.fileId, jsoncontent.body.userId, wait_bale[3], wait_bale[4], wait_bale[5]);
+				file_b(jsoncontent.body.url, wait_bale[2], jsoncontent.body.fileId, jsoncontent.body.userId, wait_bale[3], wait_bale[4], wait_bale[5],wait_bale[6]);
 			}
 		}
 	}
