@@ -10,16 +10,14 @@ var key = {};
 // const s2token = "https://bot.sapp.ir/iZVYt6vAeA9XPR1rAgM6oUMDM8u7TJoHb8Luyyh4iUQJlcqNgpHIMe1sULtKM438FRGZ0xKVIM5k92-6dhuw3_Dej7set2eICq6l5ET2AWB7hCJPgm-LCHR2uidQ9jFC6df79blZx-WekhtR";
 //#endregion
 //#region test token...
-const ttoken = '662419635:AAH-Oi0jr3GZPB0vNZSCVZ8NB1zH49Y4sXU';
+const ttoken = '822356476:AAFQqrTtxMsOutsngSb8k5pFUnDB843Ihns';
 exports.ttoken = ttoken;
 const gtoken = '73f0bc691e635189577ade8eab87eaf2cfad413e642453b4858f334569e14446';
 exports.gtoken = gtoken;
-const btoken = 'wss://api.bale.ai/v1/bots/56b035d4df0f5350b448485827503fda26e6378f';
+const btoken = 'wss://api.bale.ai/v1/bots/38877003bfdd1ff7a3760bc06543366767e657a8';
 exports.btoken = btoken;
-const stoken = "https://bot.sapp.ir/tbpkkKuiex7GJiNEaennstVYK1s16_yGaiHWQOUCFkAuzxNrpdTVZ56uJmw82M40foT2p4zTbWkIA5r24ijQXnE8SpJOnYWfdnTfrXglXy2qcxazqfOJmvveZFTy6Km-scpYEmSCCmhvNyRR";
+const stoken = "https://bot.sapp.ir/F8pfqudTf2n6QUdJVpfmdYUhnlKhF4PdLHjAK5FSS9QWN249DbtLgrjuiaGE2MDfvmCq9i83tHp6HEpzsBuOIgS6SLAPrHTewPZp9fyE02-_p7uZXxCkHxakZGbwJTDXbLhNCCewesY3dwwM";
 exports.stoken = stoken;
-const s2token = "https://bot.sapp.ir/9VHRKjA5AfkYu8Lsvhe88TevaIapjWdQxLPNCkd_3QvIcH62bwJQfuunU0nLPCLuwt-ID6OuNlu8HArZjcwzd1DyXfUMGfl5TTkYQuV2Qy4g-HGLfBchXt6ZmjY-1Q9sma6aFB0hG_U8eH8K";
-exports.s2token = s2token;
 //#endregion
 //#region Connect to Bots and Messages...
 //#region Button Definition...
