@@ -712,7 +712,8 @@ function down_link(link,usertocken) {
 // 	}
 // });
 function qinsert(link) {
-	con.query(("INSERT INTO ritmic.musics (link,titles,quality,type,download,name,json) VALUES( '" + link + ',' + musics[link].titles + ',' + ',' + musics[link].quality + ',' + ',' + musics[link].type + ',' + ',' + musics[link].download + ',' + ',' + musics[link].name + ',' + ',' + musics[link].json + ',' + "');"), function (err, result, fields) {
+	console.log(musics[link]);
+	con.query(("INSERT INTO ritmic.musics (link,titles,quality,type,download,name,json) VALUES( '" + link + "','" + musics[link].titles + "','" + musics[link].quality + "','" + musics[link].type + "','" + musics[link].download + "','" + musics[link].name + "','" + musics[link].json + "');"), function (err, result, fields) {
 		if (err) { console.log(err); }
 	});
 }
