@@ -69,8 +69,8 @@ evtSource.onerror = function (err) {
 var con = mysql.createConnection({
 	host: "localhost",
 	user: "root",
-	password: "!@#123qweQWE",
-	database: "chat2",
+	password: "1234",
+	database: "ritmic",
 	multipleStatements: true
 });
 //connect to mysql 
@@ -95,7 +95,8 @@ class mclass {
         this.quality = [];
         this.type = [];
         this.download = [];
-        this.name = [];
+		this.name = [];
+		this.json = '';
 	}
 }
 //sample JSON 
@@ -743,31 +744,30 @@ evtSource.onmessage = function (e) {
 	var allowsend = 1;
 	var usertocken = 's' + ',' + jsoncontent.from;
 	com_define(usertocken);
-	if (tmp[usertocken].wait != '') {
-		smg(usertocken,waittitle,key.command)
+	if (tmp[usertocken].wait != ''){
+		smg(usertocken,waittitle,key.stop);
 	}
 	if ((jsoncontent.body) && (jsoncontent.body)[0] == "/") {
 		//Back command
 		if (jsoncontent.body == "/backcommand") {
+			smg(usertocken,welcometitle,key.start);
 			tmp[usertocken].wait = '';
 			allowsend = 0;
 		}
 		else if (jsoncontent.body == "/help") {
-			
+			smg(usertocken,helptitle,key.help);
 			allowsend = 0;
 		}
 		else { allowsend = 1; }
 	}
 	//start bot
 	if (jsoncontent.type == "START") {
-		com_run(usertocken);
-		zeroobject(usertocken);
+		smg(usertocken,welcometitle,key.start);
 		tmp[usertocken].wait = '';
 		allowsend = 0;
 	}
 	//stop bot
 	else if (jsoncontent.type == "STOP") {
-		//zeroobject(usertocken);
 		tmp[usertocken].wait = '';
 		allowsend = 0;
 	}
@@ -775,7 +775,6 @@ evtSource.onmessage = function (e) {
 	else if (allowsend == 1) {
 		// send text to another user
 		tmp[usertocken].wait = 'yes';
-		smg(atmp[usertocken], jsoncontent, 's')
 	}
 }
 //#endregion
