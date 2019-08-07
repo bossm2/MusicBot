@@ -726,7 +726,7 @@ function qinsert(link) {
 }
 //#endregion
 //#region on sorosh massage -------------------------------------------------------------------------------soroush------------------------------------------------------------
-evtSource.onmessage = function (e) {
+evtSource.onmessage = function(e) {
 	var jsoncontent = JSON.parse(e.data);
 	// console.log(jsoncontent);
 	//definition objects
@@ -744,7 +744,7 @@ evtSource.onmessage = function (e) {
 			allowsend = 0;
 		}
 		else if (jsoncontent.body == "/help") {
-			smg(usertocken,helptitle,key.help);
+			smg(usertocken,helptitle,key.stop);
 			allowsend = 0;
 		}
 		else { allowsend = 1; }
@@ -764,6 +764,7 @@ evtSource.onmessage = function (e) {
 	else if (allowsend == 1) {
 		// send text to another user
 		tmp[usertocken].wait = 'yes';
+		searching(jsoncontent.body,usertocken)
 	}
 }
 //#endregion
