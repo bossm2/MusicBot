@@ -894,40 +894,13 @@ socket.addEventListener('message', (e) => {
 		var usertocken = 'b' + ',' + jsoncontent.body.peer.id + '|' + jsoncontent.body.peer.accessHash;
 		com_define(usertocken);
 		if (tmp[usertocken].wait != '') {
-			if (jsoncontent.body.message.textMessage == "/yes") {
-				acceptdoing(usertocken);
-			}
-			else if (jsoncontent.body.message.textMessage == "/no") {
-				tmp[usertocken].wait = '';
-			}
-			// else{
-			// jsoncontent.body = tmp[usertocken].wait;
-			// allowsend = 1
-			// }
+			
 		}
 		if (jsoncontent.body.message.$type == "TemplateMessageResponse") {
-
-			//run the game
-			if (jsoncontent.body.message.textMessage == "/runcommand") {
-				runcommands(usertocken);
-			}
 			//Back command
-			else if (jsoncontent.body.message.textMessage == "/backcommand") {
+			if (jsoncontent.body.message.textMessage == "/backcommand") {
 				com_run(usertocken);
 				zeroobject(usertocken);
-			}
-			//setting command
-			else if (jsoncontent.body.message.textMessage == "/setting") {
-				thesetting(usertocken, settingtitle);
-			}
-			//blocking command
-			else if (jsoncontent.body.message.textMessage == "/blocking") {
-				theblock(usertocken, isbloctitle);
-				tmp[usertocken].wait = '/blocking'
-			}
-			else if (jsoncontent.body.message.textMessage == "/report") {
-				theblock(usertocken, isreptitle);
-				tmp[usertocken].wait = '/report'
 			}
 			//help command
 			else if (jsoncontent.body.message.textMessage == "/help") {
@@ -935,49 +908,18 @@ socket.addEventListener('message', (e) => {
 			}
 			//stop bot
 			else if (jsoncontent.body.message.textMessage == "/stop") {
-				zeroobject(usertocken)
+
 			}
 			//start bot
 			else if (jsoncontent.body.message.textMessage == '/start') {
-				com_run(usertocken);
-				zeroobject(usertocken);
+
 			}
 			else { allowsend = 1; }
-			// else if(jsoncontent.body.message.text == '/yes' || jsoncontent.body.message.text == '/no'){}
 		}
-		else { allowsend = 1; }
-		//no command
-		// send text to another user
 
 		if (allowsend == 1) {
-			if (typeof atmp[usertocken] == 'undefined' || !(atmp[usertocken])) {
-				com_run(usertocken);
-				zeroobject(usertocken);
-			}
-			else if ((atmp[usertocken])[0] == 'b') {
-				var x = (atmp[usertocken]).slice(2).split('|');
-				jsoncontent.body.peer.id = x[0];
-				jsoncontent.body.peer.accessHash = x[1];
-				jsoncontent.$type = 'Request';
-				jsoncontent.body.$type = 'SendMessage';
-				jsoncontent.service = "messaging";
-				jsoncontent.id = "0";
-				jsoncontent.body.quotedMessage = null;
-				jsoncontent.body.randomId = (Math.floor(Math.random() * 1800000).toString() + Math.floor(Math.random() * 4000000).toString() + Math.floor(Math.random() * 55000).toString());
-				jsoncontent.body.message.generalMessage = JSON.parse(JSON.stringify(jsoncontent.body.message));
-				jsoncontent.body.message.templateMessageId = '0';
-				jsoncontent.body.message.$type = "TemplateMessage";
-				jsoncontent.body.message.btnList = key.stop.b;
-				socket.send(JSON.stringify(jsoncontent));
-				// console.log(JSON.stringify(jsoncontent))
-				jsoncontent.from = usertocken;
-				jsoncontent.to = atmp[usertocken];
-				smg_log(jsoncontent);
-			}
-			else {
 				smg(atmp[usertocken], jsoncontent, 'b');
 			}
-		}
 	}
 	else if (jsoncontent.$type == 'Response') {
 		console.log(jsoncontent.body.url);
