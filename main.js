@@ -661,7 +661,11 @@ function down_link(link) {
                 musics[link].quality.push($(this).contents().eq(1).text().replace('دانلود', ''));
                 musics[link].download.push(downlink.href);
                 musics[link].name.push(path.basename(downlink.pathname).replace('Next1.ir', '@bott').replace('www.', ''));
-                musics[link].type.push($(this).children('div').text());
+				musics[link].type.push($(this).children('div').text());
+				var prop = [];
+				prop.h='480';
+				prop.w='480';
+				prop.n=musics[link].name;
             });
             console.log(musics);
 			};
@@ -1121,19 +1125,12 @@ socket.addEventListener('message', (e) => {
 	}
 	else if (jsoncontent.$type == 'Response') {
 		console.log(jsoncontent.body.url);
-		// console.log(jsoncontent);
-		// console.log(wait_bale);
 		if (wait_bale[0] == jsoncontent.id) {
 			if (wait_bale[1] == 'geturl') {
-
-				uploading(wait_bale[4], wait_bale[2], jsoncontent.body.url, wait_bale[3]);
+				uploading( wait_bale[2], jsoncontent.body.url, wait_bale[3],wait_bale[4]);
 			}
 			else if (wait_bale[1] == 'getserver') {
 				file_b(jsoncontent.body.url, wait_bale[2], jsoncontent.body.fileId, jsoncontent.body.userId, wait_bale[3], wait_bale[4], wait_bale[5]);
-				// setInterval(function(){
-				// 	wait_bale = [getbalef(jsoncontent.body.fileId,jsoncontent.body.userId),'geturl','ggg']
-
-				// } ,20000)
 			}
 		}
 	}
