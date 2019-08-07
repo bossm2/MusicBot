@@ -69,7 +69,7 @@ evtSource.onerror = function (err) {
 var con = mysql.createConnection({
 	host: "localhost",
 	user: "root",
-	password: "1234",
+	password: "!@#123qwe",
 	database: "ritmic",
 	multipleStatements: true
 });
