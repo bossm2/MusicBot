@@ -245,17 +245,33 @@ class baleserverjs {
 	}
 }
 function smg(usertocken, textsmg, keyboard) {
-		if (usertocken[0] == 's') {
-			sendMessage(usertocken, textsmg, 'TEXT',keyboard[usertocken[0]]);
+		if (typeof keyboard === 'undefined') {
+			if (usertocken[0] == 's') {
+				sendMessage(usertocken, textsmg, 'TEXT',key.stop[usertocken[0]]);
+			}
+			else if (usertocken[0] == 'g') {
+				sendgap(usertocken, textsmg, 'text',key.stop[usertocken[0]]);
+			}
+			else if (usertocken[0] == 't') {
+				bot.sendMessage(usertocken.slice(2), textsmg,key.stop[usertocken[0]]);
+			}
+			else if (usertocken[0] == 'b') {
+				sendbale(textsmg, usertocken,key.stop[usertocken[0]]);
+			}
 		}
-		else if (usertocken[0] == 'g') {
-			sendgap(usertocken, textsmg, 'text',keyboard[usertocken[0]]);
-		}
-		else if (usertocken[0] == 't') {
-			bot.sendMessage(usertocken.slice(2), textsmg,keyboard[usertocken[0]]);
-		}
-		else if (usertocken[0] == 'b') {
-			sendbale(textsmg, usertocken,keyboard[usertocken[0]]);
+		else {
+			if (usertocken[0] == 's') {
+				sendMessage(usertocken, textsmg, 'TEXT');
+			}
+			else if (usertocken[0] == 'g') {
+				sendgap(usertocken, textsmg, 'text');
+			}
+			else if (usertocken[0] == 't') {
+				bot.sendMessage(usertocken.slice(2), textsmg);
+			}
+			else if (usertocken[0] == 'b') {
+				sendbale(textsmg, usertocken);
+			}
 		}
 }
 //massage sender function
@@ -760,7 +776,7 @@ evtSource.onmessage = function (e) {
 	else if (allowsend == 1) {
 		// send text to another user
 		tmp[usertocken].wait = 'yes';
-			smg(atmp[usertocken], jsoncontent, 's')
+		smg(atmp[usertocken], jsoncontent, 's')
 	}
 }
 //#endregion
@@ -894,7 +910,7 @@ socket.addEventListener('message', (e) => {
 		var usertocken = 'b' + ',' + jsoncontent.body.peer.id + '|' + jsoncontent.body.peer.accessHash;
 		com_define(usertocken);
 		if (tmp[usertocken].wait != '') {
-			
+
 		}
 		if (jsoncontent.body.message.$type == "TemplateMessageResponse") {
 			//Back command
