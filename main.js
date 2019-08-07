@@ -450,13 +450,14 @@ function file_t(fileType, usertocken, res, prop) {
 	// 	console.log(message.result.photo);
 	// });
 }
-function uploading(fileType, usertocken, link, prop) {
+function uploading(usertocken, link, prop,fileType) {
 		var link = new URL(link);
 		console.log(link)
 		var sendreq = (link.protocol == "http:") ? http : https;
 			sendreq.get(link, function (res) {
 				console.log(res.headers);
-				prop.s = res.headers['content-length']
+				prop.s = res.headers['content-length'];
+				var fileType = (res.headers['content-type'].includes("image")) ? 'p' : 'f';
 			if (usertocken[0] == 's') {
 				if (fileType == 'p') { fileType = 'IMAGE' } else { fileType = 'ATTACHMENT' }
 				file_s(fileType, usertocken, res, stoken, prop);
