@@ -19,7 +19,6 @@ var wait_bale = [];
 var musics = [];
 var tmp = {};
 var atmp = {};
-var queue = new Set();
 function myRetryStrategy(err, response, body, options) {
     //console.log(err);
 	return (typeof body == 'undefined' || (err != null));
