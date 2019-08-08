@@ -678,7 +678,6 @@ function down_link(link,usertocken) {
     console.log("Error: " + error);
     }
     else{
-
             $ = cheerio.load(body)
             $('div  #downloads a').each(function (i, e) {
                 var downlink = new URL(decodeURI($(this).attr('href')));
@@ -696,7 +695,6 @@ function down_link(link,usertocken) {
 			};
     });
 }
-
 //#endregion
 //#region get object from mysql
 //test change
