@@ -907,7 +907,6 @@ socket.addEventListener('message', (e) => {
 	// 		}
 	// 		//stop bot
 	// 		else if (jsoncontent.body.message.textMessage == "/stop") {
-
 	// 		}
 	// 		//start bot
 	// 		else if (jsoncontent.body.message.textMessage == '/start') {
