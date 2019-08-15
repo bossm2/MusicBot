@@ -884,6 +884,7 @@ function sendbale(text, usertocken, keyboard) {
 	socket.send(JSON.stringify(templateMessage));
 }
 socket.addEventListener('message', (e) => {
+	
 	// var jsoncontent = JSON.parse(e.data);
 	// //  console.log(jsoncontent);
 	// if (jsoncontent.body.$type == 'Message') {
