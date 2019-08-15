@@ -12,7 +12,10 @@ var mysql = require('mysql');
 var fs = require('fs');
 var https = require('https');
 var http = require('http');
+const Slimbot = require('slimbot');
+const bot = new Slimbot(ttoken);
 var app = express();
+//const crypto = require('crypto');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 var wait_bale = [];
@@ -61,8 +64,6 @@ socket.addEventListener('error', (e) => {
 	console.log(e);
 });
 var evtSource = new EventSource((stoken + "/getMessage"), { Header: { "Content-Type": "application/stream+json", "Accept": "application/stream+json", 'Connection': 'keep-alive' } });
-const Slimbot = require('slimbot');
-const bot = new Slimbot(ttoken);
 evtSource.onerror = function (err) {
 	if (err) console.log(err);
 }
@@ -884,7 +885,7 @@ function sendbale(text, usertocken, keyboard) {
 	socket.send(JSON.stringify(templateMessage));
 }
 socket.addEventListener('message', (e) => {
-	
+
 	// var jsoncontent = JSON.parse(e.data);
 	// //  console.log(jsoncontent);
 	// if (jsoncontent.body.$type == 'Message') {
