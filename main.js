@@ -1,5 +1,5 @@
 //#region variables
-const { btoken, stoken, s2token, ttoken, welcometitle, canceltitle, blocktitle, counttitle, waittitle, starttitle, notsupportsmg, gtoken, settingtitle, isreptitle, isbloctitle, helptitle,key } = require("./Constant.js");
+const { b2token,btoken, stoken, s2token, ttoken, welcometitle, canceltitle, blocktitle, counttitle, waittitle, starttitle, notsupportsmg, gtoken, settingtitle, isreptitle, isbloctitle, helptitle,key } = require("./Constant.js");
 var cheerio = require('cheerio');
 const path = require('path');
 var EventSource = require("eventsource");
@@ -13,7 +13,9 @@ var fs = require('fs');
 var https = require('https');
 var http = require('http');
 const Slimbot = require('slimbot');
+const Slimbot2 = require('slimbot2');
 const bot = new Slimbot(ttoken);
+const bot2 = new Slimbot2(b2token);
 var app = express();
 //const crypto = require('crypto');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -933,4 +935,49 @@ socket.addEventListener('message', (e) => {
 	// 	}
 	// }
 });
+//#endregion
+
+
+//#region on telegram -------------------------------------------------------------------------------------telegram2------------------------------------------------------------
+bot2.on('message', jsoncontent => {
+	console.log(jsoncontent);
+	//definition objects
+	var allowsend = 1;
+	var usertocken = 't' + ',' + jsoncontent.chat.id;
+	com_define(usertocken);
+	if (tmp[usertocken].wait != '') {
+
+	}
+	if ((jsoncontent.text) && (jsoncontent.text)[0] == "✅") {
+		if (jsoncontent.text == "✅بازگشت") {
+			allowsend = 0; 
+		}
+		//help command
+		else if (jsoncontent.text == "✅راهنما") {
+			thecommand(usertocken, helptitle);
+			allowsend = 0; 
+		}
+		else { allowsend = 1; }
+	}
+	//start bot
+	if (jsoncontent.text == "/START") {
+		com_run(usertocken);
+		zeroobject(usertocken);
+		tmp[usertocken].wait = '';
+		allowsend = 0;
+	}
+	//no command
+	else if (allowsend == 1) {
+		smg(atmp[usertocken], jsoncontent, 't');
+	}
+});
+function callback(err, obj) {
+	if (err) {
+		// handle error
+		console.log(err);
+	}
+	// handle returned object
+	console.log(obj);
+};
+bot2.startPolling(callback);
 //#endregion

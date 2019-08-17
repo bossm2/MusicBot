@@ -12,6 +12,8 @@ var key = {};
 //#region test token...
 const ttoken = '822356476:AAFQqrTtxMsOutsngSb8k5pFUnDB843Ihns';
 exports.ttoken = ttoken;
+const b2token = '856790966:2ed0efcbff10ed3b7e2f34a2a7ec2deeeeb56afa';
+exports.b2token = b2token;
 const gtoken = '73f0bc691e635189577ade8eab87eaf2cfad413e642453b4858f334569e14446';
 exports.gtoken = gtoken;
 const btoken = 'wss://api.bale.ai/v1/bots/38877003bfdd1ff7a3760bc06543366767e657a8';
