@@ -58,15 +58,15 @@ const socket = new ReconnectingWebsocket(
 	undefined,
 	RECONNECTING_OPTIONS
 );
-socket.addEventListener('open', () => {
-	console.log('connected');
-});
-socket.addEventListener('close', (e) => {
-	console.log(e);
-});
-socket.addEventListener('error', (e) => {
-	console.log(e);
-});
+// socket.addEventListener('open', () => {
+// 	console.log('connected');
+// });
+// socket.addEventListener('close', (e) => {
+// 	console.log(e);
+// });
+// socket.addEventListener('error', (e) => {
+// 	console.log(e);
+// });
 var evtSource = new EventSource((stoken + "/getMessage"), { Header: { "Content-Type": "application/stream+json", "Accept": "application/stream+json", 'Connection': 'keep-alive' } });
 evtSource.onerror = function (err) {
 	if (err) console.log(err);
@@ -881,62 +881,62 @@ var server = app.listen(930, function () {
 });
 //#endregion
 //#region on newBale -------------------------------------------------------------------------------------------newBale-------------------------------------------------------------
-function sendbale(text, usertocken, keyboard) {
-	var templateMessage = new balejs(text, usertocken, key.stop.b);
-	if (typeof keyboard !== 'undefined') {
-		templateMessage = new balejs(text, usertocken, keyboard);
-	}
-	socket.send(JSON.stringify(templateMessage));
-}
-socket.addEventListener('message', (e) => {
+// function sendbale(text, usertocken, keyboard) {
+// 	var templateMessage = new balejs(text, usertocken, key.stop.b);
+// 	if (typeof keyboard !== 'undefined') {
+// 		templateMessage = new balejs(text, usertocken, keyboard);
+// 	}
+// 	socket.send(JSON.stringify(templateMessage));
+// }
+// socket.addEventListener('message', (e) => {
 
-	// var jsoncontent = JSON.parse(e.data);
-	// //  console.log(jsoncontent);
-	// if (jsoncontent.body.$type == 'Message') {
+// 	// var jsoncontent = JSON.parse(e.data);
+// 	// //  console.log(jsoncontent);
+// 	// if (jsoncontent.body.$type == 'Message') {
 
-	// 	// console.log(jsoncontent.body.message.caption);	
-	// 	var allowsend = 0;
-	// 	var usertocken = 'b' + ',' + jsoncontent.body.peer.id + '|' + jsoncontent.body.peer.accessHash;
-	// 	com_define(usertocken);
-	// 	if (tmp[usertocken].wait != '') {
+// 	// 	// console.log(jsoncontent.body.message.caption);	
+// 	// 	var allowsend = 0;
+// 	// 	var usertocken = 'b' + ',' + jsoncontent.body.peer.id + '|' + jsoncontent.body.peer.accessHash;
+// 	// 	com_define(usertocken);
+// 	// 	if (tmp[usertocken].wait != '') {
 
-	// 	}
-	// 	if (jsoncontent.body.message.$type == "TemplateMessageResponse") {
-	// 		//Back command
-	// 		if (jsoncontent.body.message.textMessage == "/backcommand") {
-	// 			com_run(usertocken);
-	// 			zeroobject(usertocken);
-	// 		}
-	// 		//help command
-	// 		else if (jsoncontent.body.message.textMessage == "/help") {
-	// 			thecommand(usertocken, helptitle);
-	// 		}
-	// 		//stop bot
-	// 		else if (jsoncontent.body.message.textMessage == "/stop") {
-	// 		}
-	// 		//start bot
-	// 		else if (jsoncontent.body.message.textMessage == '/start') {
+// 	// 	}
+// 	// 	if (jsoncontent.body.message.$type == "TemplateMessageResponse") {
+// 	// 		//Back command
+// 	// 		if (jsoncontent.body.message.textMessage == "/backcommand") {
+// 	// 			com_run(usertocken);
+// 	// 			zeroobject(usertocken);
+// 	// 		}
+// 	// 		//help command
+// 	// 		else if (jsoncontent.body.message.textMessage == "/help") {
+// 	// 			thecommand(usertocken, helptitle);
+// 	// 		}
+// 	// 		//stop bot
+// 	// 		else if (jsoncontent.body.message.textMessage == "/stop") {
+// 	// 		}
+// 	// 		//start bot
+// 	// 		else if (jsoncontent.body.message.textMessage == '/start') {
 
-	// 		}
-	// 		else { allowsend = 1; }
-	// 	}
+// 	// 		}
+// 	// 		else { allowsend = 1; }
+// 	// 	}
 
-	// 	if (allowsend == 1) {
-	// 			smg(atmp[usertocken], jsoncontent, 'b');
-	// 		}
-	// }
-	// else if (jsoncontent.$type == 'Response') {
-	// 	console.log(jsoncontent.body.url);
-	// 	if (wait_bale[0] == jsoncontent.id) {
-	// 		if (wait_bale[1] == 'geturl') {
-	// 			uploading( wait_bale[2], jsoncontent.body.url, wait_bale[3],wait_bale[4]);
-	// 		}
-	// 		else if (wait_bale[1] == 'getserver') {
-	// 			file_b(jsoncontent.body.url, wait_bale[2], jsoncontent.body.fileId, jsoncontent.body.userId, wait_bale[3], wait_bale[4], wait_bale[5],wait_bale[6]);
-	// 		}
-	// 	}
-	// }
-});
+// 	// 	if (allowsend == 1) {
+// 	// 			smg(atmp[usertocken], jsoncontent, 'b');
+// 	// 		}
+// 	// }
+// 	// else if (jsoncontent.$type == 'Response') {
+// 	// 	console.log(jsoncontent.body.url);
+// 	// 	if (wait_bale[0] == jsoncontent.id) {
+// 	// 		if (wait_bale[1] == 'geturl') {
+// 	// 			uploading( wait_bale[2], jsoncontent.body.url, wait_bale[3],wait_bale[4]);
+// 	// 		}
+// 	// 		else if (wait_bale[1] == 'getserver') {
+// 	// 			file_b(jsoncontent.body.url, wait_bale[2], jsoncontent.body.fileId, jsoncontent.body.userId, wait_bale[3], wait_bale[4], wait_bale[5],wait_bale[6]);
+// 	// 		}
+// 	// 	}
+// 	// }
+// });
 //#endregion
 
 
