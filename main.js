@@ -940,7 +940,12 @@ var server = app.listen(930, function () {
 // });
 //#endregion
 
-
+bale2.on('request', function(request, response) {
+    response.writeHead(200);
+    console.log(request.method);
+    console.log(request.headers);
+    console.log(request.url);
+});
 
 bale2.get('/', function(req, res) {
 	// res.send('hello world')
