@@ -43,21 +43,21 @@ process.on('uncaughtException', function (e) {
 
 //#endregion
 //#region pre configiuration
-const RECONNECTING_OPTIONS = {
-	connectionTimeout: 5000,
-	constructor: typeof window !== 'undefined' ? WebSocket : NodeWebSocket,
-	debug: true,
-	maxReconnectionDelay: 4000,
-	maxRetries: Infinity,
-	minReconnectionDelay: 10,
-	reconnectionDelayGrowFactor: 1.3,
-};
-RECONNECTING_OPTIONS.WebSocket = require('ws');
-const socket = new ReconnectingWebsocket(
-	() => btoken,
-	undefined,
-	RECONNECTING_OPTIONS
-);
+// const RECONNECTING_OPTIONS = {
+// 	connectionTimeout: 5000,
+// 	constructor: typeof window !== 'undefined' ? WebSocket : NodeWebSocket,
+// 	debug: true,
+// 	maxReconnectionDelay: 4000,
+// 	maxRetries: Infinity,
+// 	minReconnectionDelay: 10,
+// 	reconnectionDelayGrowFactor: 1.3,
+// };
+// RECONNECTING_OPTIONS.WebSocket = require('ws');
+// const socket = new ReconnectingWebsocket(
+// 	() => btoken,
+// 	undefined,
+// 	RECONNECTING_OPTIONS
+// );
 // socket.addEventListener('open', () => {
 // 	console.log('connected');
 // });
