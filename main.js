@@ -940,8 +940,10 @@ var server = app.listen(930, function () {
 // });
 //#endregion
 
-bale2.all('/*', function (req, res, next) {
-	console.log('Accessing the secret section ...')
+bale2.all('/*', function (request, res, next) {
+	console.log(request.method);
+    console.log(request.headers);
+    console.log(request.url);
 	next() // pass control to the next handler
 })
 
