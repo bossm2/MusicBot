@@ -941,7 +941,7 @@ socket.addEventListener('message', (e) => {
 
 
 
-app.get('/', function (req, res) {
+app2.get('/', function (req, res) {
 	// res.send('hello world')
 	var jsoncontent = req.body;
 	console.log(jsoncontent);
@@ -950,7 +950,7 @@ app.get('/', function (req, res) {
 https.createServer({
 	key: fs.readFileSync('server.key'),
 	cert: fs.readFileSync('server.cert')
-}, app)
+}, app2)
 .listen(3000, function () {
 	console.log('Example app listening on port 3000! Go to https://localhost:3000/')
 })
