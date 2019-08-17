@@ -947,10 +947,10 @@ bale2.get('/', function (req, res) {
 	console.log(jsoncontent);
 })
 
-https.createServer({
-	key: fs.readFileSync('/root/node/server.key'),
-	cert: fs.readFileSync('/root/node/server.cert')
-}, bale2)
-.listen(3000, function () {
-	console.log('Example app listening on port 3000! Go to https://localhost:3000/')
-});
+// https.createServer({
+// 	key: fs.readFileSync('/root/node/server.key'),
+// 	cert: fs.readFileSync('/root/node/server.cert')
+// }, bale2)
+// .listen(3000, function () {
+// 	console.log('Example app listening on port 3000! Go to https://localhost:3000/')
+// });
