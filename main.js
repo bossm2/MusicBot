@@ -942,7 +942,7 @@ var server = app.listen(930, function () {
 
 
 
-bale2.get('/', function (req, res) {
+bale2.post('/', function (req, res) {
 	// res.send('hello world')
 	var jsoncontent = req.body;
 	console.log(jsoncontent);
