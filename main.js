@@ -41,6 +41,7 @@ process.on('uncaughtException', function (e) {
 	});
 });
 
+
 //#endregion
 //#region pre configiuration
 // const RECONNECTING_OPTIONS = {
