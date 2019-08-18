@@ -975,5 +975,12 @@ bot2.on('message', jsoncontent => {
 
 });
 
-
+function callback(err, obj) {
+	if (err) {
+		// handle error
+		console.log(err);
+	}
+	// handle returned object
+	console.log(obj);
+};
 bot2.startPolling(callback);
