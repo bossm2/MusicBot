@@ -957,6 +957,6 @@ https.createServer({
 	key: fs.readFileSync('/root/node/server.key'),
 	cert: fs.readFileSync('/root/node/server.cert')
 }, bale2)
-.listen(3000, function () {
+.listen(443, function () {
 	console.log('Example app listening on port 3000! Go to https://localhost:3000/')
 });
