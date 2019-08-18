@@ -974,3 +974,6 @@ bot2.on('message', jsoncontent => {
 	console.log(jsoncontent);
 
 });
+
+
+bot2.startPolling(callback);
