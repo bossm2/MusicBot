@@ -953,6 +953,11 @@ bale2.get('/', function(req, res) {
 	console.log(jsoncontent);
 })
 
+bale2.post(`/bot`, (req, res) => {
+	console.log(req.body);
+	res.sendStatus(200);
+  });
+
 https.createServer({
 	key: fs.readFileSync('/root/node/server.key'),
 	cert: fs.readFileSync('/root/node/server.cert')
