@@ -966,3 +966,11 @@ https.createServer({
 .listen(443, function () {
 	console.log('Example app listening on port 3000! Go to https://localhost:3000/')
 });
+
+
+
+
+bot2.on('message', jsoncontent => {
+	console.log(jsoncontent);
+
+});
