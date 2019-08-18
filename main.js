@@ -1013,7 +1013,7 @@ const tlsOptions = {
 // })
 
 // Start https webhook
-bot.startWebhook('/', tlsOptions, 443)
+bot.startWebhook('/', tlsOptions, 443);
 
 // Http webhook, for nginx/heroku users.
 // bot.startWebhook('/secret-path', null, 5000)
