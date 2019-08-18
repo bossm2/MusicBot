@@ -68,6 +68,7 @@ expressApp.use(bot.webhookCallback('/'))
 // bot.telegram.setWebhook('https://server.tld:8443/secret-path')
 
 expressApp.get('/', (req, res) => {
+    console.log(req);
   res.send('Hello World!')
 })
 
