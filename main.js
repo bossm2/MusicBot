@@ -958,11 +958,18 @@ bale2.post(`/bot`, (req, res) => {
 	res.sendStatus(200);
 });
 
-https.createServer({
-	key: fs.readFileSync('/root/node/cert/server-key.pem'), 
-    cert: fs.readFileSync('/root/node/cert/server-crt.pem'), 
-    ca: fs.readFileSync('/root/node/cert/ca-crt.pem')
-}, bale2)
+const tlsOptions = {
+	key: fs.readFileSync('/root/node/cert/server-key.pem'),
+	cert: fs.readFileSync('/root/node/cert/server-crt.pem'),
+	ca: [
+		// This is necessary only if the client uses the self-signed certificate.
+		fs.readFileSync('/root/node/cert/ca-crt.pem')
+	],
+	passphrase: 'pass:password'
+	}
+
+
+https.createServer(tlsOptions, bale2)
 .listen(443, function () {
 	console.log('Example app listening on port 3000! Go to https://localhost:3000/')
 });
@@ -970,51 +977,51 @@ https.createServer({
 
 
 
-const slimbotss = require('slimbot2');
-const slimbot22 = new slimbotss('614519785:bcf6be1ed458c9552b2104a5f94ebed52c433f15');
+// const slimbotss = require('slimbot2');
+// const slimbot22 = new slimbotss('614519785:bcf6be1ed458c9552b2104a5f94ebed52c433f15');
 
-// Register listeners
-slimbot22.on('message', message => {
-  // reply when user sends a message
-  slimbot22.sendMessage(message.chat.id, 'Message received');
-});
+// // Register listeners
+// slimbot22.on('message', message => {
+//   // reply when user sends a message
+//   slimbot22.sendMessage(message.chat.id, 'Message received');
+// });
 
-function callback(err, obj) {
-	if (err) {
-		// handle error
-		console.log(err);
-	}
-	console.log('polling...');
-	console.log(obj);
-};
+// function callback(err, obj) {
+// 	if (err) {
+// 		// handle error
+// 		console.log(err);
+// 	}
+// 	console.log('polling...');
+// 	console.log(obj);
+// };
 
 
-// Call API
-slimbot22.startPolling(callback);
+// // Call API
+// slimbot22.startPolling(callback);
 
-console.log('polling...');
+// console.log('polling...');
 
 //========================================================================
-const Telegraf = require('telegraf')
-const bot = new Telegraf('614519785:bcf6be1ed458c9552b2104a5f94ebed52c433f15')
+// const Telegraf = require('telegraf')
+// const bot = new Telegraf('614519785:bcf6be1ed458c9552b2104a5f94ebed52c433f15')
 
-// TLS options
-const tlsOptions = {
-  key: fs.readFileSync('/root/node/cert/server-key.pem'),
-  cert: fs.readFileSync('/root/node/cert/server-crt.pem'),
-  ca: [
-    // This is necessary only if the client uses the self-signed certificate.
-    fs.readFileSync('/root/node/cert/ca-crt.pem')
-  ]
-}
+// // TLS options
+// const tlsOptions = {
+//   key: fs.readFileSync('/root/node/cert/server-key.pem'),
+//   cert: fs.readFileSync('/root/node/cert/server-crt.pem'),
+//   ca: [
+//     // This is necessary only if the client uses the self-signed certificate.
+//     fs.readFileSync('/root/node/cert/ca-crt.pem')
+//   ]
+// }
 
-// Set telegram webhook
-// bot.telegram.setWebhook('https://server.tld:8443/secret-path', {
-//   source: 'server-cert.pem'
-// })
+// // Set telegram webhook
+// // bot.telegram.setWebhook('https://server.tld:8443/secret-path', {
+// //   source: 'server-cert.pem'
+// // })
 
-// Start https webhook
-bot.startWebhook('/', tlsOptions, 443);
+// // Start https webhook
+// bot.startWebhook('/', tlsOptions, 443);
 
-// Http webhook, for nginx/heroku users.
-// bot.startWebhook('/secret-path', null, 5000)
+// // Http webhook, for nginx/heroku users.
+// // bot.startWebhook('/secret-path', null, 5000)
