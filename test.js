@@ -59,3 +59,18 @@ require('https')
 
 bot.on('text', (ctx) => ctx.reply('Hello World'))
 bot.launch()
+
+
+const express = require('express')
+const expressApp = express()
+
+expressApp.use(bot.webhookCallback('/'))
+// bot.telegram.setWebhook('https://server.tld:8443/secret-path')
+
+expressApp.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+
+expressApp.listen(3000, () => {
+  console.log('Example app listening on port 3000!')
+})
