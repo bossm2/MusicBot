@@ -993,3 +993,27 @@ function callback(err, obj) {
 slimbot22.startPolling(callback);
 
 console.log('polling...');
+
+//========================================================================
+const bot = new Telegraf('')
+
+// TLS options
+const tlsOptions = {
+  key: fs.readFileSync('/root/node/cert/server-key.pem'),
+  cert: fs.readFileSync('/root/node/cert/server-crt.pem'),
+  ca: [
+    // This is necessary only if the client uses the self-signed certificate.
+    fs.readFileSync('/root/node/cert/ca-crt.pem')
+  ]
+}
+
+// Set telegram webhook
+// bot.telegram.setWebhook('https://server.tld:8443/secret-path', {
+//   source: 'server-cert.pem'
+// })
+
+// Start https webhook
+bot.startWebhook('/', tlsOptions, 443)
+
+// Http webhook, for nginx/heroku users.
+// bot.startWebhook('/secret-path', null, 5000)
