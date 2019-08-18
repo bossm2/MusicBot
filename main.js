@@ -970,13 +970,13 @@ https.createServer({
 
 
 
-const slimbot = require('slimbot2');
-const slimbot2 = new slimbot('614519785:bcf6be1ed458c9552b2104a5f94ebed52c433f15');
+const slimbotss = require('slimbot2');
+const slimbot22 = new slimbotss('614519785:bcf6be1ed458c9552b2104a5f94ebed52c433f15');
 
 // Register listeners
-slimbot2.on('message', message => {
+slimbot22.on('message', message => {
   // reply when user sends a message
-  slimbot2.sendMessage(message.chat.id, 'Message received');
+  slimbot22.sendMessage(message.chat.id, 'Message received');
 });
 
 function callback(err, obj) {
@@ -990,6 +990,6 @@ function callback(err, obj) {
 
 
 // Call API
-slimbot2.startPolling(callback);
+slimbot22.startPolling(callback);
 
 console.log('polling...');
