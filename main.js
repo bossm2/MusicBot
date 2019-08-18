@@ -956,11 +956,12 @@ bale2.get('/', function(req, res) {
 bale2.post(`/bot`, (req, res) => {
 	console.log(req.body);
 	res.sendStatus(200);
-  });
+});
 
 https.createServer({
-	key: fs.readFileSync('/root/node/server.key'),
-	cert: fs.readFileSync('/root/node/server.cert')
+	key: fs.readFileSync('/root/node/cert/server-key.pem'), 
+    cert: fs.readFileSync('/root/node/cert/server-crt.pem'), 
+    ca: fs.readFileSync('/root/node/cert/ca-crt.pem')
 }, bale2)
 .listen(443, function () {
 	console.log('Example app listening on port 3000! Go to https://localhost:3000/')
