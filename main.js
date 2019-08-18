@@ -995,7 +995,8 @@ slimbot22.startPolling(callback);
 console.log('polling...');
 
 //========================================================================
-const bot = new Telegraf('')
+const Telegraf = require('telegraf')
+const bot = new Telegraf('614519785:bcf6be1ed458c9552b2104a5f94ebed52c433f15')
 
 // TLS options
 const tlsOptions = {
