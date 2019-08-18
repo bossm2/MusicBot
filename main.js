@@ -802,15 +802,15 @@ bot.on('message', jsoncontent => {
 		smg(atmp[usertocken], jsoncontent, 't');
 	}
 });
-function callback(err, obj) {
-	if (err) {
-		// handle error
-		console.log(err);
-	}
-	// handle returned object
-	console.log(obj);
-};
-bot.startPolling(callback);
+// function callback(err, obj) {
+// 	if (err) {
+// 		// handle error
+// 		console.log(err);
+// 	}
+// 	// handle returned object
+// 	console.log(obj);
+// };
+// bot.startPolling(callback);
 //#endregion
 //#region on GAP --------------------------------------------------------------------------------------------GAP---------------------------------------------------------------
 //massage sender gap function
