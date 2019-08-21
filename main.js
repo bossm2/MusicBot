@@ -961,10 +961,10 @@ bale2.post(`/bot`, (req, res) => {
 const tlsOptions = {
 	key: fs.readFileSync('/root/node/cert/server-key.pem'),
 	cert: fs.readFileSync('/root/node/cert/server-crt.pem'),
-	ca: [
-		// This is necessary only if the client uses the self-signed certificate.
-		fs.readFileSync('/root/node/cert/ca-crt.pem')
-	],
+	// ca: [
+	// 	// This is necessary only if the client uses the self-signed certificate.
+	// 	fs.readFileSync('/root/node/cert/ca-crt.pem')
+	// ],
 	passphrase: 'pass:password'
 	}
 
