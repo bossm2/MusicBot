@@ -959,8 +959,8 @@ bale2.post(`/bot`, (req, res) => {
 });
 
 const tlsOptions = {
-	key: fs.readFileSync('/root/node/cert/server-key.pem'),
-	cert: fs.readFileSync('/root/node/cert/server-crt.pem'),
+	key: fs.readFileSync('/root/node/musicbot/cert/YOURPRIVATE.key'),
+	cert: fs.readFileSync('/root/node/musicbot/cert/YOURPUBLIC.pem'),
 	// ca: [
 	// 	// This is necessary only if the client uses the self-signed certificate.
 	// 	fs.readFileSync('/root/node/cert/ca-crt.pem')
