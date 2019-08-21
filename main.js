@@ -965,7 +965,7 @@ const tlsOptions = {
 	// 	// This is necessary only if the client uses the self-signed certificate.
 	// 	fs.readFileSync('/root/node/cert/ca-crt.pem')
 	// ],
-	passphrase: 'pass:password'
+	//passphrase: 'pass:password'
 	}
 
 
