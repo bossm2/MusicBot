@@ -18,10 +18,12 @@ const Slimbot2 = require('slimbot2');
 const bot = new Slimbot(ttoken);
 const bot2 = new Slimbot2(b2token);
 var app = express();
-var bale2 = express();
+var app443 = express();
 //const crypto = require('crypto');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app443.use(bodyParser.urlencoded({ extended: true }));
+app443.use(bodyParser.json());
 var wait_bale = [];
 var musics = [];
 var tmp = {};
@@ -940,38 +942,20 @@ var server = app.listen(930, function () {
 // });
 //#endregion
 
-bale2.all('/*', function (request, res, next) {
-	console.log(request.method);
-    console.log(request.headers);
-    console.log(request.url);
-	next() // pass control to the next handler
-})
-
-bale2.get('/', function(req, res) {
-	// res.send('hello world')
-	var jsoncontent = req.body;
-	console.log(jsoncontent);
-})
-
-bale2.post(`/bot`, (req, res) => {
+app443.post(`/bale`, (req, res) => {
 	console.log(req.body);
 	res.sendStatus(200);
 });
 
 const tlsOptions = {
 	key: fs.readFileSync('/root/node/musicbot/cert/YOURPRIVATE.key'),
-	cert: fs.readFileSync('/root/node/musicbot/cert/YOURPUBLIC.pem'),
-	// ca: [
-	// 	// This is necessary only if the client uses the self-signed certificate.
-	// 	fs.readFileSync('/root/node/cert/ca-crt.pem')
-	// ],
-	//passphrase: 'pass:password'
+	cert: fs.readFileSync('/root/node/musicbot/cert/YOURPUBLIC.pem')
 	}
 
 
-https.createServer(tlsOptions, bale2)
+https.createServer(tlsOptions, app443)
 .listen(443, function () {
-	console.log('Example app listening on port 3000! Go to https://localhost:3000/')
+	console.log('Example app listening on port 443! Go to https://localhost:443/')
 });
 
 
