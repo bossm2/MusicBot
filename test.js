@@ -75,3 +75,31 @@ expressApp.get('/', (req, res) => {
 expressApp.listen(3000, () => {
   console.log('Example app listening on port 3000!')
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+app443.post(`/bale`, (req, res) => {
+	console.log(req.body);
+	res.sendStatus(200);
+});
+
+const tlsOptions = {
+	key: fs.readFileSync('/root/node/musicbot/cert/YOURPRIVATE.key'),
+	cert: fs.readFileSync('/root/node/musicbot/cert/YOURPUBLIC.pem')
+	}
+
+
+https.createServer(tlsOptions, app443)
+.listen(443, function () {
+	console.log('Example app listening on port 443! Go to https://localhost:443/')
+});
