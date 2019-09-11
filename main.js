@@ -814,6 +814,49 @@ bot.on('message', jsoncontent => {
 // };
 // bot.startPolling(callback);
 //#endregion
+//#region on telegram -------------------------------------------------------------------------------------bale------------------------------------------------------------
+bot.on('message', jsoncontent => {
+	//  console.log(jsoncontent);
+	//definition objects
+	var allowsend = 1;
+	var usertocken = 't' + ',' + jsoncontent.chat.id;
+	com_define(usertocken);
+	if (tmp[usertocken].wait != '') {
+
+	}
+	if ((jsoncontent.text) && (jsoncontent.text)[0] == "✅") {
+		if (jsoncontent.text == "✅بازگشت") {
+			allowsend = 0; 
+		}
+		//help command
+		else if (jsoncontent.text == "✅راهنما") {
+			thecommand(usertocken, helptitle);
+			allowsend = 0; 
+		}
+		else { allowsend = 1; }
+	}
+	//start bot
+	if (jsoncontent.text == "/START") {
+		com_run(usertocken);
+		zeroobject(usertocken);
+		tmp[usertocken].wait = '';
+		allowsend = 0;
+	}
+	//no command
+	else if (allowsend == 1) {
+		smg(atmp[usertocken], jsoncontent, 't');
+	}
+});
+// function callback(err, obj) {
+// 	if (err) {
+// 		// handle error
+// 		console.log(err);
+// 	}
+// 	// handle returned object
+// 	console.log(obj);
+// };
+// bot.startPolling(callback);
+//#endregion
 //#region on GAP --------------------------------------------------------------------------------------------GAP---------------------------------------------------------------
 //massage sender gap function
 function sendgap(usertocken, title, type, keyboard) {
@@ -883,77 +926,3 @@ var server = app.listen(930, function () {
 	var port = server.address().port;
 });
 //#endregion
-//#region on newBale -------------------------------------------------------------------------------------------newBale-------------------------------------------------------------
-// function sendbale(text, usertocken, keyboard) {
-// 	var templateMessage = new balejs(text, usertocken, key.stop.b);
-// 	if (typeof keyboard !== 'undefined') {
-// 		templateMessage = new balejs(text, usertocken, keyboard);
-// 	}
-// 	socket.send(JSON.stringify(templateMessage));
-// }
-// socket.addEventListener('message', (e) => {
-
-// 	// var jsoncontent = JSON.parse(e.data);
-// 	// //  console.log(jsoncontent);
-// 	// if (jsoncontent.body.$type == 'Message') {
-
-// 	// 	// console.log(jsoncontent.body.message.caption);	
-// 	// 	var allowsend = 0;
-// 	// 	var usertocken = 'b' + ',' + jsoncontent.body.peer.id + '|' + jsoncontent.body.peer.accessHash;
-// 	// 	com_define(usertocken);
-// 	// 	if (tmp[usertocken].wait != '') {
-
-// 	// 	}
-// 	// 	if (jsoncontent.body.message.$type == "TemplateMessageResponse") {
-// 	// 		//Back command
-// 	// 		if (jsoncontent.body.message.textMessage == "/backcommand") {
-// 	// 			com_run(usertocken);
-// 	// 			zeroobject(usertocken);
-// 	// 		}
-// 	// 		//help command
-// 	// 		else if (jsoncontent.body.message.textMessage == "/help") {
-// 	// 			thecommand(usertocken, helptitle);
-// 	// 		}
-// 	// 		//stop bot
-// 	// 		else if (jsoncontent.body.message.textMessage == "/stop") {
-// 	// 		}
-// 	// 		//start bot
-// 	// 		else if (jsoncontent.body.message.textMessage == '/start') {
-
-// 	// 		}
-// 	// 		else { allowsend = 1; }
-// 	// 	}
-
-// 	// 	if (allowsend == 1) {
-// 	// 			smg(atmp[usertocken], jsoncontent, 'b');
-// 	// 		}
-// 	// }
-// 	// else if (jsoncontent.$type == 'Response') {
-// 	// 	console.log(jsoncontent.body.url);
-// 	// 	if (wait_bale[0] == jsoncontent.id) {
-// 	// 		if (wait_bale[1] == 'geturl') {
-// 	// 			uploading( wait_bale[2], jsoncontent.body.url, wait_bale[3],wait_bale[4]);
-// 	// 		}
-// 	// 		else if (wait_bale[1] == 'getserver') {
-// 	// 			file_b(jsoncontent.body.url, wait_bale[2], jsoncontent.body.fileId, jsoncontent.body.userId, wait_bale[3], wait_bale[4], wait_bale[5],wait_bale[6]);
-// 	// 		}
-// 	// 	}
-// 	// }
-// });
-//#endregion
-
-app443.post(`/bale`, (req, res) => {
-	console.log(req.body);
-	res.sendStatus(200);
-});
-
-const tlsOptions = {
-	key: fs.readFileSync('/root/node/musicbot/cert/YOURPRIVATE.key'),
-	cert: fs.readFileSync('/root/node/musicbot/cert/YOURPUBLIC.pem')
-	}
-
-
-https.createServer(tlsOptions, app443)
-.listen(443, function () {
-	console.log('Example app listening on port 443! Go to https://localhost:443/')
-});
