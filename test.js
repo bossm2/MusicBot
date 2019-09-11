@@ -38,45 +38,43 @@
 
 
 
-const Telegraf = require('telegraf')
-const bot = new Telegraf('614519785:bcf6be1ed458c9552b2104a5f94ebed52c433f15')
+// const Telegraf = require('telegraf')
+// const bot = new Telegraf('614519785:bcf6be1ed458c9552b2104a5f94ebed52c433f15')
 
-// TLS options
-const tlsOptions = {
-key: fs.readFileSync('/root/node/cert/server-key.pem'),
-cert: fs.readFileSync('/root/node/cert/server-crt.pem'),
-ca: [
-    // This is necessary only if the client uses the self-signed certificate.
-    fs.readFileSync('/root/node/cert/ca-crt.pem')
-]
-}
+// // TLS options
+// const tlsOptions = {
+// key: fs.readFileSync('/root/node/cert/server-key.pem'),
+// cert: fs.readFileSync('/root/node/cert/server-crt.pem'),
+// ca: [
+//     // This is necessary only if the client uses the self-signed certificate.
+//     fs.readFileSync('/root/node/cert/ca-crt.pem')
+// ]
+// }
 
-require('https')
-.createServer(tlsOptions, bot.webhookCallback('/'))
-.listen(443)
-
-
-
-bot.on('text', (ctx) => ctx.reply('Hello World'))
-bot.launch()
+// require('https')
+// .createServer(tlsOptions, bot.webhookCallback('/'))
+// .listen(443)
 
 
-const express = require('express')
-const expressApp = express()
 
-expressApp.use(bot.webhookCallback('/'))
-// bot.telegram.setWebhook('https://server.tld:8443/secret-path')
-
-expressApp.get('/', (req, res) => {
-    console.log(req);
-  res.send('Hello World!')
-})
-
-expressApp.listen(3000, () => {
-  console.log('Example app listening on port 3000!')
-})
+// bot.on('text', (ctx) => ctx.reply('Hello World'))
+// bot.launch()
 
 
+// const express = require('express')
+// const expressApp = express()
+
+// expressApp.use(bot.webhookCallback('/'))
+// // bot.telegram.setWebhook('https://server.tld:8443/secret-path')
+
+// expressApp.get('/', (req, res) => {
+//     console.log(req);
+//   res.send('Hello World!')
+// })
+
+// expressApp.listen(3000, () => {
+//   console.log('Example app listening on port 3000!')
+// })
 
 
 
@@ -88,18 +86,38 @@ expressApp.listen(3000, () => {
 
 
 
-app443.post(`/bale`, (req, res) => {
-	console.log(req.body);
-	res.sendStatus(200);
+
+
+// app443.post(`/bale`, (req, res) => {
+// 	console.log(req.body);
+// 	res.sendStatus(200);
+// });
+
+// const tlsOptions = {
+// 	key: fs.readFileSync('/root/node/musicbot/cert/YOURPRIVATE.key'),
+// 	cert: fs.readFileSync('/root/node/musicbot/cert/YOURPUBLIC.pem')
+// 	}
+
+
+// https.createServer(tlsOptions, app443)
+// .listen(443, function () {
+// 	console.log('Example app listening on port 443! Go to https://localhost:443/')
+// });
+var express = require('express');
+
+var app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+
+
+var server = app.listen(930, function () {
+	var host = server.address().address;
+	var port = server.address().port;
 });
 
-const tlsOptions = {
-	key: fs.readFileSync('/root/node/musicbot/cert/YOURPRIVATE.key'),
-	cert: fs.readFileSync('/root/node/musicbot/cert/YOURPUBLIC.pem')
-	}
 
+app.post('/', function (req, res) {
 
-https.createServer(tlsOptions, app443)
-.listen(443, function () {
-	console.log('Example app listening on port 443! Go to https://localhost:443/')
 });
+
