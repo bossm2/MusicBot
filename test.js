@@ -104,7 +104,7 @@
 // 	console.log('Example app listening on port 443! Go to https://localhost:443/')
 // });
 var express = require('express');
-
+var bodyParser = require('body-parser');
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -112,8 +112,6 @@ app.use(bodyParser.json());
 
 
 var server = app.listen(930, function () {
-	var host = server.address().address;
-	var port = server.address().port;
 });
 
 
