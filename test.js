@@ -115,7 +115,7 @@ var server = app.listen(830, function () {
 });
 
 
-app.all('*', function (req, res) {
+app.all('/', function (req, res) {
 console.log(req);
 });
 
