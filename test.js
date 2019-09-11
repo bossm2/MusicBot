@@ -118,6 +118,6 @@ var server = app.listen(930, function () {
 
 
 app.post('/', function (req, res) {
-
+console.log(req);
 });
 
